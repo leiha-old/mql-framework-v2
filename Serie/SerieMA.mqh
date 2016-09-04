@@ -10,50 +10,39 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include  "./TimeFacade.mqh"
-#include "../Indicator/Indicators.mqh"
+#include "./Serie.mqh"
 
 // ---
-class Time
-   : public TimeFacade
+class SerieMA
+   : public Serie
 {
 
-public
+int period;
+
+public 
    :
    
-   Indicators * indicators;
+   SerieMA
+      ( int periodMa , ENUM_INDEXBUFFER_TYPE type = INDICATOR_DATA )
+      : Serie( type ) , period ( periodMa )
+   {
       
+   };
+   
    /**
-    */
-   Time ( CurrencyFacade * currencyFacade )
-      : TimeFacade ( currencyFacade )
-   {
-       indicators = new Indicators ( GetPointer( this ) );
-   };
-   
-   virtual void 
-      end
-         ( )
-   {
-      for 
-         ( int i = 0 , end = indicators.total() ; i < end ; i++ )
-      {
-         indicators.getByPrimaryIndex( i ).end( );
-      }
-   };
-   
-   /** 
+    *
     */
    virtual void
-      onCalculate 
-         ( int start , int toCopy ) 
+      onCalculate( Serie * serieSrc , int start , int toCopy ) 
    {
-      for 
-         ( int i = 0 , end = indicators.total() ; i < end ; i++ )
+      for( int i = start ; i < toCopy - period ; i++ ) 
       {
-         Indicator * indicator = indicators.getByPrimaryIndex( i );
-         indicator.onCalculate( start , toCopy );
+         double result = 0.0;
+         for( int ii = period ; ii < start ; ii-- ) {
+            result += serieSrc.get( i + ii );
+         }
+         items[ i ] = ( result / period );
       }
    };
-
+   
 };

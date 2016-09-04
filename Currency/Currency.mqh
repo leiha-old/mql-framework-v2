@@ -41,6 +41,17 @@ public
       return t;
    };
    
+   virtual void 
+      end
+         ( )
+   {
+      for 
+         ( int i = 0 , end = times.total() ; i < end ; i++ )
+      {
+         times.getByPrimaryIndex( i ).end(  );
+      } 
+   };
+   
    /** 
     */
    virtual void

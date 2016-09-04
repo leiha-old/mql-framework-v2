@@ -33,20 +33,21 @@ public
    {  
       Time * t = time( NULL , PERIOD_CURRENT );
       
-      t.sar( ).plot( )
+      /*
+      t.indicators.sar( ).plot( )
          .c0lor( clrRed       )
          .type ( DRAW_ARROW   )
          .style( STYLE_SOLID  )
          .width( 1            )
-      ;
+      ;*/
       
-      /*
-      t.rsi( ).plot( )
+      
+      t.indicators.rsi( ).plot( )
          .c0lor( clrGreen     )
          .type ( DRAW_LINE   )
          .style( STYLE_SOLID  )
          .width( 1            )
-     ;*/
+     ;
    };
 };
 

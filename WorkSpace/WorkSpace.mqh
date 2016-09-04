@@ -58,7 +58,20 @@ public
    virtual void 
       onInit 
          ( )
-   {};
+   {
+      
+   };
+   
+   virtual void 
+      end
+         ( )
+   {
+      for 
+         ( int i = 0 , end = currencies.total() ; i < end ; i++ )
+      {
+         currencies.getByPrimaryIndex( i ).end( );         
+      }
+   };
    
    /** 
     */

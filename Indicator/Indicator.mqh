@@ -32,7 +32,9 @@ public
       
    };
    
-   Plot * plot( int serieName = MAIN_LINE ) 
+   Plot * 
+      plot
+         ( int serieName = MAIN_LINE ) 
    {
       Serie * s = series.get( serieName );
       if( s != NULL ) {
@@ -40,6 +42,17 @@ public
       }
       return NULL;      
    }
+   
+   virtual void 
+      end
+         ( )
+   {
+      for 
+         ( int i = 0 , end = series.total() ; i < end ; i++ )
+      {
+         series.getByPrimaryIndex( i ).end( );
+      }
+   };
    
    /** 
     */

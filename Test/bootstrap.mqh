@@ -5,7 +5,8 @@
 
 void OnInit() 
 {
-   test.onInit();
+   test.onInit( );
+   test.end   ( );
 };
 
 int OnCalculate (
