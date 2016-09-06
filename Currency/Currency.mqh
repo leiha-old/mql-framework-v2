@@ -10,23 +10,25 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "./CurrencyFacade.mqh"
-#include "../Time/Times.mqh"
+#include "../Array/ArrayMap.mqh"
+#include "../Time/Time.mqh"
 
 // ---
 class Currency 
-   : public CurrencyFacade
+   //: public
 {
 
 public
    :
-
-   Times * times;
    
+   ArrayMap < int , Time * > * times;
+   
+   string                      symbol;
+
    Currency ( string currencySymbol )
-      : CurrencyFacade ( currencySymbol )
+      : symbol ( currencySymbol )
    {
-      times = new Times ( );   
+      times = new ArrayMap < int , Time * > (  );   
    };
    
    /** 
@@ -35,12 +37,14 @@ public
    {
       Time * t = times.get( timeFrame );
       if( t == NULL ) {
-         t = new Time( GetPointer( this ) );
+         t = new Time( symbol , timeFrame );
          times.update( timeFrame , t );
       }      
       return t;
    };
    
+   /** 
+    */
    virtual void 
       end
          ( )
@@ -64,4 +68,5 @@ public
          times.getByPrimaryIndex( i ).onCalculate( start , toCopy );
       }        
    };
+   
 };

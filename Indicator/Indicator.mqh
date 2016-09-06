@@ -10,28 +10,155 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "../Serie/Series.mqh"
+#include "../Serie/SerieMA.mqh"
 #include "../Array/ArrayMap.mqh"
-#include  "./IndicatorFacade.mqh"
 
 // ---
 class Indicator 
-   : public IndicatorFacade
+   //: public
 {
 
 protected
    :
-
+   
+   /** 
+    */
+   Indicator * 
+      setString
+         ( ENUM_CUSTOMIND_PROPERTY_STRING property , string value ) 
+   {
+      IndicatorSetString( property , value );
+      return GetPointer( this );
+   };
+   
+   /** 
+    */
+   Indicator * 
+      setInteger
+         ( ENUM_CUSTOMIND_PROPERTY_INTEGER property , int value ) 
+   {
+      IndicatorSetInteger( property , value );  
+      return GetPointer( this );
+   };
+   
+   /** 
+    */
+   Indicator * 
+      setDouble
+         ( ENUM_CUSTOMIND_PROPERTY_DOUBLE property , double value ) 
+   {
+      IndicatorSetDouble( property , value );  
+      return GetPointer( this );
+   };
+   
+   /** 
+    */
+   void
+      setLevels 
+         ( )
+   {
+      for 
+         ( int i = 0 , end = levels.total() ; i < end ; i++ )
+      {
+         if ( i == 0 ){
+            IndicatorSetInteger( INDICATOR_LEVELS , end );
+         }
+         IndicatorSetDouble( INDICATOR_LEVELVALUE , i , levels.get( i ) );         
+      }
+   };
+   
+   Array    < double >               * levels;
+   
+   ArrayMap < string , Indicator * > * slaves;
+   
+   string                              symbol;
+   
+   ENUM_TIMEFRAMES                     timeFrame;
+   
 public
    :
    
+   ArrayMap < int , Serie * >        * series;
+   
    Indicator
-      ( TimeFacade * timeFacade )
-      : IndicatorFacade ( timeFacade )
+      ( string currencySymbol , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
+      : symbol( currencySymbol ) , timeFrame( frame )
    {
-      
+      levels = new Array    < double >              ( );
+      slaves = new ArrayMap < string , Indicator * >( );
+      series = new ArrayMap < int , Serie * >       ( );
    };
    
+   /**
+    */
+   Indicator * 
+      average
+         ( int period = 13 , int serieName = MAIN_LINE )
+   {
+      string name = StringFormat( "MA.%i.%i", period , serieName );
+      
+      Indicator * indicator = slaves.get( name );
+      if( indicator == NULL ) {
+         indicator = new Indicator( symbol , timeFrame );
+         
+         SerieMA * serie = new SerieMA( series.get( serieName ) );
+         serie.setPeriod( period );
+         
+         indicator.series.update( serieName , serie );
+         
+         slaves.update( name , indicator );
+      }    
+      return indicator;           
+   };
+   
+   /** 
+    */
+   Indicator * 
+      level
+         ( double value ) 
+   {
+      levels.update( value );
+      return GetPointer( this );      
+   };
+   
+   /** 
+    */
+   Indicator * 
+      minimum
+         ( double value ) 
+   {
+      return setDouble( INDICATOR_MINIMUM , value );
+   };
+   
+   /** 
+    */
+   Indicator * 
+      maximum
+         ( double value ) 
+   {
+      return setDouble( INDICATOR_MAXIMUM , value );
+   };
+   
+   /** 
+    */
+   Indicator * 
+      shortName
+         ( string name ) 
+   {
+      return setString( INDICATOR_SHORTNAME , name );
+   };
+   
+   /** 
+    */
+   Indicator * 
+      digits
+         ( int digits ) 
+   {
+      return setInteger( INDICATOR_DIGITS , digits );
+   };
+   
+   /** 
+    */
    Plot * 
       plot
          ( int serieName = MAIN_LINE ) 
@@ -43,6 +170,8 @@ public
       return NULL;      
    }
    
+   /** 
+    */
    virtual void 
       end
          ( )
@@ -52,6 +181,14 @@ public
       {
          series.getByPrimaryIndex( i ).end( );
       }
+      
+      for 
+         ( int i = 0 , end = slaves.total() ; i < end ; i++ )
+      {
+         slaves.getByPrimaryIndex( i ).end( );
+      }
+      
+      setLevels( );
    };
    
    /** 
@@ -64,6 +201,12 @@ public
          ( int i = 0 , end = series.total() ; i < end ; i++ )
       {
          series.getByPrimaryIndex( i ).onCalculate( start , toCopy );
+      }
+      
+      for 
+         ( int i = 0 , end = slaves.total() ; i < end ; i++ )
+      {
+         slaves.getByPrimaryIndex( i ).onCalculate( start , toCopy );
       }
    };
 

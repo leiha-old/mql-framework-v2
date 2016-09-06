@@ -32,7 +32,7 @@ public
       : slot ( TOTAL_BUFFERS++ ) , 
         type ( INDICATOR_DATA  )
    {
-      
+      enableReverse( true ) ;
    };
    
    virtual void 

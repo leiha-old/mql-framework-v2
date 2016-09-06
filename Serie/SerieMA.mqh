@@ -17,32 +17,62 @@ class SerieMA
    : public Serie
 {
 
-int period;
+int     period;
+Serie * serieSrc;
 
 public 
    :
    
    SerieMA
-      ( int periodMa , ENUM_INDEXBUFFER_TYPE type = INDICATOR_DATA )
-      : Serie( type ) , period ( periodMa )
+      ( Serie * serie )
+      : serieSrc ( serie ) , period ( 13 )
    {
       
+   };
+   
+   SerieMA * setPeriod ( int periodMa = 13 )
+   {
+      period = periodMa;
+      return GetPointer( this );
    };
    
    /**
     *
     */
    virtual void
-      onCalculate( Serie * serieSrc , int start , int toCopy ) 
+      onCalculate( int start , int toCopy ) 
    {
-      for( int i = start ; i < toCopy - period ; i++ ) 
+      double result;
+      for( int i = start , t = ( toCopy > 1 ? toCopy - period : toCopy ) ; i < t ; i++ ) 
       {
-         double result = 0.0;
-         for( int ii = period ; ii < start ; ii-- ) {
+         result = 0.0;
+         for( int ii = period - 1 ; ii >= start ; ii-- ) {
             result += serieSrc.get( i + ii );
          }
          items[ i ] = ( result / period );
       }
    };
+   
+   /**
+    *
+    *//*
+   virtual void
+      onCalculate( int start , int toCopy ) 
+   {
+      double dSmoothFactor = 2.0 / ( 1.0 + period );
+      
+      int t = toCopy;
+      if( toCopy > 1 ) {
+         t -= period;
+      } else {
+         
+      }
+      
+      for( int i = start , t =  ; i < t ; i++ ) 
+      {
+         items[ i ] = ( serieSrc.get( i ) * dSmoothFactor ) + ( items[ i + 1] * ( 1.0 - dSmoothFactor) );
+         
+      }
+   };*/
    
 };

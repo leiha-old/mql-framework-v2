@@ -10,27 +10,94 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include  "./TimeFacade.mqh"
-#include "../Indicator/Indicators.mqh"
+#include "../Indicator/Indicator.mqh"
+#include "../Serie/SerieBuffer.mqh"
 
 // ---
 class Time
-   : public TimeFacade
+   //: public
 {
+
+protected
+   :
+   
+   /**
+    */
+   Indicator * 
+      getIndicatorBuffer
+         ( string name , int handle , int bufferName = MAIN_LINE )
+   {
+      Indicator * indicator = indicators.get( name );
+      if( indicator == NULL ) 
+      {
+         indicator = new Indicator( symbol , timeFrame );
+         indicator.series.update( bufferName , new SerieBuffer( handle ) );
+         indicators.update( name , indicator );
+      }
+      return indicator;
+   };
+   
+   string                              symbol;
+   
+   ENUM_TIMEFRAMES                     timeFrame;
 
 public
    :
    
-   Indicators * indicators;
+   ArrayMap < string , Indicator * > * indicators;
       
    /**
     */
-   Time ( CurrencyFacade * currencyFacade )
-      : TimeFacade ( currencyFacade )
+   Time 
+      ( string & currencySymbol , ENUM_TIMEFRAMES timeframe = PERIOD_CURRENT )
+         : symbol ( currencySymbol )
    {
-       indicators = new Indicators ( GetPointer( this ) );
+       indicators = new ArrayMap < string , Indicator * > ( );
    };
    
+   /**
+    */
+   Indicator * 
+      rsi
+         ( int period = 13 , ENUM_APPLIED_PRICE appliedPrice = PRICE_CLOSE )
+   {
+      return getIndicatorBuffer(
+         StringFormat( "RSI.%i.%i", period , appliedPrice ) ,
+         iRSI( symbol , timeFrame , period , appliedPrice ) 
+      );
+   };
+   
+   /**
+    */
+   Indicator * 
+      sar
+         ( double step = 0.02 , double maximum = 0.2 )
+   {
+      return getIndicatorBuffer(
+         StringFormat( "SAR.%e.%e", step , maximum ) ,
+         iSAR( symbol , timeFrame , step , maximum ) 
+      );
+   };
+   
+   /**
+    */
+   Indicator * 
+      average
+         ( 
+            int                period       = 13          , 
+            ENUM_MA_METHOD     method       = MODE_SMA    , 
+            ENUM_APPLIED_PRICE appliedPrice = PRICE_CLOSE , 
+            int                shift        = 0 
+         )
+   {
+      return getIndicatorBuffer(
+         StringFormat( "MA.%e.%e.%e.%e", period , method , appliedPrice , shift ) ,
+         iMA( symbol , timeFrame , period , shift , method, appliedPrice ) 
+      );
+   };
+   
+   /**
+    */
    virtual void 
       end
          ( )

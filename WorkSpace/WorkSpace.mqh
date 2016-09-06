@@ -10,10 +10,8 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 // ---
-#include "../Serie/Series.mqh"
-#include "../Indicator/Indicators.mqh"
-#include "../Time/Times.mqh"
-#include "../Currency/Currencies.mqh"
+#include "../Array/ArrayMap.mqh"
+#include "../Currency/Currency.mqh"
 
 // ---
 class WorkSpace
@@ -22,12 +20,12 @@ class WorkSpace
 public
    :
    
-   Currencies * currencies;
+   ArrayMap < string , Currency * > * currencies;
    
    WorkSpace ( )
       //:
    {
-      currencies = new Currencies ( );
+      currencies = new ArrayMap < string , Currency * > ( );
    };
    
    /** 
