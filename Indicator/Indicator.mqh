@@ -90,6 +90,7 @@ public
    };
    
    /**
+    * Moving average on one serie of this indicator
     */
    Indicator * 
       average
@@ -112,6 +113,7 @@ public
    };
    
    /** 
+    * Set levels for the Indicator
     */
    Indicator * 
       level
@@ -122,6 +124,7 @@ public
    };
    
    /** 
+    * Set Minimum Value for the Indicator
     */
    Indicator * 
       minimum
@@ -131,6 +134,7 @@ public
    };
    
    /** 
+    * Set Maximum Value for the Indicator
     */
    Indicator * 
       maximum
@@ -149,6 +153,7 @@ public
    };
    
    /** 
+    * Set Number of digits for all series displayed
     */
    Indicator * 
       digits

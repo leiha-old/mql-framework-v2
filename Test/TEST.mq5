@@ -47,8 +47,8 @@ public
             .width( 1            )
       ;*/
       
-      Indicator * ma = tf.average( 5 );
-      ma
+      Indicator * ma1 = tf.average( 5 );
+      ma1
          .plot( )
             .c0lor( clrBlue      )
             .type ( DRAW_LINE    )

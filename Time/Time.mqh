@@ -49,13 +49,14 @@ public
    /**
     */
    Time 
-      ( string & currencySymbol , ENUM_TIMEFRAMES timeframe = PERIOD_CURRENT )
-         : symbol ( currencySymbol )
+      ( string & currencySymbol , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
+         : symbol ( currencySymbol ) , timeFrame ( frame )
    {
        indicators = new ArrayMap < string , Indicator * > ( );
    };
    
-   /**
+   /** 
+    * Indicator : Relative Strength Index
     */
    Indicator * 
       rsi
@@ -67,7 +68,8 @@ public
       );
    };
    
-   /**
+   /** 
+    * Indicator : Parabolic SAR
     */
    Indicator * 
       sar
@@ -80,6 +82,7 @@ public
    };
    
    /**
+    * Indicator : Moving Average
     */
    Indicator * 
       average
@@ -109,7 +112,8 @@ public
       }
    };
    
-   /** 
+   /**
+    * Event : onCalculate 
     */
    virtual void
       onCalculate 
