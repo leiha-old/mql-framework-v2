@@ -36,7 +36,7 @@ public
    };
    
    virtual void 
-      end 
+      end  
          ( ) 
    {
       SetIndexBuffer( slot , items , type );
@@ -90,6 +90,21 @@ public
       );
    };
    
+   bool 
+      isCrossDown
+         ( Serie * serie , Serie * serieDest , int candle = 0 ) 
+   {
+      if (
+            items[ candle + 1 ] > serie.items[ candle + 1 ] 
+         && items[ candle     ] < serie.items[ candle     ] 
+      ) {
+         serieDest.items[ candle ] = items[ candle ];
+         return true;
+      }
+      serieDest.items[ candle ] = 0;
+      return false;
+   };
+   
    // ---
    
    bool 
@@ -110,6 +125,21 @@ public
             items[ candle + 1 ] < serie.items[ candle + 1 ] 
          && items[ candle     ] > serie.items[ candle     ] 
       );
+   };
+   
+   bool 
+      isCrossUp
+         ( Serie * serie , Serie * serieDest , int candle = 0 ) 
+   {
+      if (
+            items[ candle + 1 ] < serie.items[ candle + 1 ] 
+         && items[ candle     ] > serie.items[ candle     ] 
+      ) {
+         serieDest.items[ candle ] = items[ candle ];
+         return true;
+      }
+      serieDest.items[ candle ] = 0;
+      return false;
    };
    
    // ---

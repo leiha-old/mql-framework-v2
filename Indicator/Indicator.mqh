@@ -81,12 +81,12 @@ public
    ArrayMap < int , Serie * >        * series;
    
    Indicator
-      ( string currencySymbol , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
+      ( string currencySymbol = NULL , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
       : symbol( currencySymbol ) , timeFrame( frame )
    {
       levels = new Array    < double >              ( );
       slaves = new ArrayMap < string , Indicator * >( );
-      series = new ArrayMap < int , Serie * >       ( );
+      series = new ArrayMap < int    , Serie     * >( );
    };
    
    /**

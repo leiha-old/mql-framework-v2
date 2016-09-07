@@ -11,6 +11,8 @@
 //+------------------------------------------------------------------+
 
 #include "../Indicator/Indicator.mqh"
+#include "../Signal/Signal.mqh"
+
 #include "../Serie/SerieBuffer.mqh"
 
 // ---
@@ -20,6 +22,22 @@ class Time
 
 protected
    :
+   
+   /**
+    */
+   Signal * 
+      getSignalBuffer
+         ( string name , int bufferName = MAIN_LINE )
+   {
+      Signal * signal = indicators.get( name );
+      if( signal == NULL ) 
+      {
+         signal = new Signal( );
+         //signal.series.update( bufferName , new SerieBuffer( handle ) );
+         signals.update( name , signal );
+      }
+      return signal;
+   };
    
    /**
     */
@@ -45,6 +63,8 @@ public
    :
    
    ArrayMap < string , Indicator * > * indicators;
+   
+   ArrayMap < string , Signal    * > * signals;
       
    /**
     */
@@ -53,6 +73,37 @@ public
          : symbol ( currencySymbol ) , timeFrame ( frame )
    {
        indicators = new ArrayMap < string , Indicator * > ( );
+       signals    = new ArrayMap < string , Signal    * > ( );
+   };
+   
+   /** 
+    * Signal : Crossing
+    */
+   SignalCrossing * 
+      cross
+         ( Indicator * indicator1 , Indicator * indicator2 , int serieName1 = MAIN_LINE , int serieName2 = MAIN_LINE )
+   {
+      return cross (
+         indicator1.series.get( serieName1 ) ,
+         indicator2.series.get( serieName2 )
+      );
+   };
+  
+   /** 
+    * Signal : Crossing
+    */
+   SignalCrossing * 
+      cross
+         ( Serie * serie1 , Serie * serie2 )
+   {
+      string name = "Cross";
+      SignalCrossing * signal = signals.get( name );
+      if( signal == NULL ) 
+      {
+         signal = new SignalCrossing( serie1 , serie2 );
+         signals.update( name , signal );
+      }
+      return signal;
    };
    
    /** 
@@ -110,6 +161,12 @@ public
       {
          indicators.getByPrimaryIndex( i ).end( );
       }
+      
+      for 
+         ( int i = 0 , end = signals.total() ; i < end ; i++ )
+      {
+         signals.getByPrimaryIndex( i ).end( );         
+      }
    };
    
    /**
@@ -124,6 +181,13 @@ public
       {
          Indicator * indicator = indicators.getByPrimaryIndex( i );
          indicator.onCalculate( start , toCopy );
+      }
+      
+      for 
+         ( int i = 0 , end = signals.total() ; i < end ; i++ )
+      {
+         Signal * signal = signals.getByPrimaryIndex( i );
+         signal.onCalculate( start , toCopy );
       }
    };
 

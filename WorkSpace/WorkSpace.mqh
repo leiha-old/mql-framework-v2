@@ -29,6 +29,7 @@ public
    };
    
    /** 
+    * Get Currency by symbol
     */
    Currency * 
       currency 
@@ -42,13 +43,14 @@ public
       return c;
    };
    
-   /** 
+   /**
+    * Get TimeFrame
     */
    Time * 
       time 
-         ( string currency , ENUM_TIMEFRAMES timeFrame = PERIOD_CURRENT ) 
+         ( string symbol , ENUM_TIMEFRAMES timeFrame = PERIOD_CURRENT ) 
    {
-      return currency( currency ).time( timeFrame );
+      return currency( symbol ).time( timeFrame );
    };
    
    /** 
