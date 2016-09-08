@@ -8,8 +8,8 @@
 // -------------------------
 
 
-//#property indicator_separate_window 
-#property indicator_chart_window 
+#property indicator_separate_window 
+//#property indicator_chart_window 
 #property indicator_buffers 20
 #property indicator_plots   20
 
@@ -31,11 +31,11 @@ public
       Time * tf = time( NULL , PERIOD_CURRENT );      
       
       // ----- SAR
-      sar( tf );
+      //sar( tf );
       
       
       // ----- RSI
-      //rsi( tf );
+      rsi( tf );
       
       
       
@@ -112,26 +112,36 @@ public
          .level  (  70 )
          .plot( )
             .c0lor( clrGreen     )
-            .type ( DRAW_LINE    )
+            .type ( DRAW_NONE    )
             .style( STYLE_DOT    )
             .width( 1            )
       ;
       
       // -----
      
-      Indicator * rsiMA1= rsi.average( 7 );
+      Indicator * rsiMA1= rsi.average( 14 );
       rsiMA1
          .plot( )
-            .c0lor( clrBlue      )
-            .type ( DRAW_LINE    )
+            .c0lor( clrSilver      )
+            .type (DRAW_NONE   )
             .style( STYLE_SOLID  )
             .width( 1            )
       ;
       
-      Indicator * rsiMA2= rsi.average( 21 );
+      Indicator * rsiMA2= rsiMA1.average( 14 );
       rsiMA2
          .plot( )
-            .c0lor( clrRed       )
+            .c0lor( clrSilver       )
+            .type (  DRAW_LINE     )
+            .style( STYLE_SOLID  )
+            .width( 1            )
+      ;
+      
+      /*
+      Indicator * rsiMA3= rsiMA2.average( 55 );
+      rsiMA3
+         .plot( )
+            .c0lor( clrOrange       )
             .type ( DRAW_LINE    )
             .style( STYLE_SOLID  )
             .width( 1            )
@@ -139,7 +149,7 @@ public
       
       // -----
       
-      Signal * s1 = tf.cross( rsiMA1 , rsiMA2 );
+      Signal * s1 = tf.cross( rsiMA2 , rsiMA3 );
       s1
          .plot( Signal::LONG_OPEN )
             .emptyValue( 0 )
@@ -150,6 +160,25 @@ public
       ;
       
       s1
+         .plot( Signal::SHORT_OPEN )
+            .emptyValue( 0 )
+            .c0lor( clrRed       )
+            .type ( DRAW_ARROW   )
+            .style( STYLE_SOLID  )
+            .width( 1            )
+      ;*/
+      
+      Signal * s2 = tf.trend( rsiMA2 );
+      s2
+         .plot( Signal::LONG_OPEN )
+            .emptyValue( 0 )
+            .c0lor( clrGreen      )
+            .type ( DRAW_ARROW   )
+            .style( STYLE_SOLID  )
+            .width( 1            )
+      ;
+      
+      s2
          .plot( Signal::SHORT_OPEN )
             .emptyValue( 0 )
             .c0lor( clrRed       )

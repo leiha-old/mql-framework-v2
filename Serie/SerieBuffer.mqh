@@ -39,6 +39,10 @@ public
       onCalculate( int start , int toCopy ) 
    {
       CopyBuffer( serieHandle , serieBuffer , start , toCopy , items );
+      for( int i = 0 , t = total( ) ; i < t ; i++ ) 
+      {
+         items[ i ] = NormalizeDouble( items[ i ] , 10 ) ;
+      }
    };
 
 };

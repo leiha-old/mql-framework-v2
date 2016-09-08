@@ -49,6 +49,53 @@ int Signal::SHORT_OPEN  = 2;
 int Signal::SHORT_CLOSE = 3;
 
 // ---
+class SignalTrend
+   : public Signal
+{
+
+protected
+   :
+   
+   Serie * serie1;
+   
+   bool                    trend;
+
+public
+   :
+   
+   SignalTrend
+      ( Serie * serieSrc1 )
+      : serie1( serieSrc1 ) , trend ( false ) , Signal(  )
+   {
+      
+   };
+   
+   /**
+    *
+    */
+   virtual void
+      onCalculate( int start , int toCopy ) 
+   {
+      for( int i = ( toCopy > 1000 ? toCopy - 2 : toCopy ) , t = start ; i > t ; i-- ) 
+      {
+         if
+            ( trend == false && serie1.isTrendUp( i ) ) 
+         {
+            trend = true;
+            series.get( LONG_OPEN ).items[ i ] = serie1.items[ i ];       
+         } 
+         else if
+            ( trend == true && serie1.isTrendDown( i ) ) 
+         {
+            trend = false;
+            series.get( SHORT_OPEN ).items[ i ] = serie1.items[ i ];    
+         }                
+      }
+   };
+
+};
+
+// ---
 class SignalCrossing
    : public Signal
 {
@@ -75,7 +122,7 @@ public
    virtual void
       onCalculate( int start , int toCopy ) 
    {
-      for( int i = start , t = toCopy - 1 ; i < t ; i++ ) 
+      for( int i = start , t = toCopy - 2 ; i < t ; i++ ) 
       {
          if
             ( serie1.isCrossUp  ( serie2 , series.get( LONG_OPEN  ) , i ) ) 

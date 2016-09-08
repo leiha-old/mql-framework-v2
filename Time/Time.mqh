@@ -106,6 +106,33 @@ public
       return signal;
    };
    
+    /** 
+    * Signal : Crossing
+    */
+   SignalTrend * 
+      trend
+         ( Indicator * indicator1 , int serieName1 = MAIN_LINE )
+   {
+      return trend ( indicator1.series.get( serieName1 ) );
+   };
+   
+    /** 
+    * Signal : Crossing
+    */
+   SignalTrend * 
+      trend
+         ( Serie * serie1 )
+   {
+      string name = "Trend";
+      SignalTrend * signal = signals.get( name );
+      if( signal == NULL ) 
+      {
+         signal = new SignalTrend( serie1 );
+         signals.update( name , signal );
+      }
+      return signal;
+   };
+   
    /** 
     * Indicator : Relative Strength Index
     */

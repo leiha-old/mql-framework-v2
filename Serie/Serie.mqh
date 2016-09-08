@@ -71,6 +71,20 @@ public
    // ---
    
    bool 
+      isTrendDown
+         ( int candle = 0 ) 
+   {
+      return ( items[ candle + 1 ] > items[ candle ] );
+   };
+   
+   bool 
+      isTrendUp
+         ( int candle = 0 ) 
+   {
+      return ( items[ candle + 1 ] < items[ candle ] );
+   };
+   
+   bool 
       isCrossDown
          ( double value , int candle = 0 ) 
    {
@@ -95,13 +109,18 @@ public
          ( Serie * serie , Serie * serieDest , int candle = 0 ) 
    {
       if (
-            items[ candle + 1 ] > serie.items[ candle + 1 ] 
+            items[ candle + 2 ] > serie.items[ candle + 2 ] 
+         && items[ candle + 1 ] > serie.items[ candle + 1 ] 
          && items[ candle     ] < serie.items[ candle     ] 
       ) {
-         serieDest.items[ candle ] = items[ candle ];
+         serieDest.items[ candle ] = 
+            (  items[ candle + 1 ] + serie.items[ candle + 1 ] 
+            +  items[ candle     ] + serie.items[ candle     ] 
+            ) / 4
+         ; 
          return true;
       }
-      serieDest.items[ candle ] = 0;
+      
       return false;
    };
    
@@ -132,10 +151,15 @@ public
          ( Serie * serie , Serie * serieDest , int candle = 0 ) 
    {
       if (
-            items[ candle + 1 ] < serie.items[ candle + 1 ] 
+            items[ candle + 2 ] < serie.items[ candle + 2 ] 
+         && items[ candle + 1 ] > serie.items[ candle + 1 ] 
          && items[ candle     ] > serie.items[ candle     ] 
       ) {
-         serieDest.items[ candle ] = items[ candle ];
+         serieDest.items[ candle ] = 
+            (  items[ candle + 1 ] + serie.items[ candle + 1 ] 
+            +  items[ candle     ] + serie.items[ candle     ] 
+            ) / 4
+         ; 
          return true;
       }
       serieDest.items[ candle ] = 0;
