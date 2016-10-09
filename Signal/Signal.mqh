@@ -10,8 +10,7 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "../Indicator/Indicator.mqh"
-
+#include "../Time/Indicators.mqh"
 // ---
 class Signal 
    : public Indicator
@@ -20,7 +19,7 @@ class Signal
 protected
    :
    
-   
+   TimeIndicators * indicators;
    
 public
    :
@@ -31,14 +30,14 @@ public
    static int SHORT_CLOSE;
    
    Signal
-      (  )
-      : Indicator( )
+      ( TimeIndicators * timeIndicators )
+      : Indicator( ) , indicators ( timeIndicators )
    {
-      series.update( LONG_OPEN   , new Serie( ) );
-      series.update( LONG_CLOSE  , new Serie( ) );
+      update( LONG_OPEN   , new Serie( ) );
+      update( LONG_CLOSE  , new Serie( ) );
             
-      series.update( SHORT_OPEN  , new Serie( ) );
-      series.update( SHORT_CLOSE , new Serie( ) );
+      update( SHORT_OPEN  , new Serie( ) );
+      update( SHORT_CLOSE , new Serie( ) );
    };  
 
 };
@@ -64,34 +63,34 @@ public
    :
    
    SignalTrend
-      ( Serie * serieSrc1 )
-      : serie1( serieSrc1 ) , trend ( false ) , Signal(  )
+      ( TimeIndicators * timeIndicators , Serie * serieSrc1 )
+      : serie1( serieSrc1 ) , trend ( false ) , Signal( timeIndicators )
    {
       
    };
    
    /**
     *
-    */
+   
    virtual void
       onCalculate( int start , int toCopy ) 
    {
       for( int i = ( toCopy > 1000 ? toCopy - 2 : toCopy ) , t = start ; i > t ; i-- ) 
       {
          if
-            ( trend == false && serie1.isTrendUp( i ) ) 
+            ( trend == false && serie1.trend( ).up( i ) )
          {
             trend = true;
-            series.get( LONG_OPEN ).items[ i ] = serie1.items[ i ];       
+            get( LONG_OPEN ).items[ i ] = serie1.items[ i ];       
          } 
          else if
-            ( trend == true && serie1.isTrendDown( i ) ) 
+            ( trend == true && serie1.trend( ).down( i ) ) 
          {
             trend = false;
-            series.get( SHORT_OPEN ).items[ i ] = serie1.items[ i ];    
+            get( SHORT_OPEN ).items[ i ] = serie1.items[ i ];    
          }                
       }
-   };
+   };*/
 
 };
 
@@ -110,31 +109,33 @@ public
    :
    
    SignalCrossing
-      ( Serie * serieSrc1 , Serie * serieSrc2 )
-      : serie1( serieSrc1 ) , serie2( serieSrc2 ) , Signal(  )
+      ( TimeIndicators * timeIndicators , Serie * serieSrc1 , Serie * serieSrc2 )
+      : serie1( serieSrc1 ) , serie2( serieSrc2 ) , Signal( timeIndicators )
    {
       
    };
    
    /**
     *
-    */
+    
    virtual void
       onCalculate( int start , int toCopy ) 
    {
+      int period = 1;
+      SeriePlugin * crossPlugin = serie1.cross( serie2 );
       for( int i = start , t = toCopy - 2 ; i < t ; i++ ) 
       {
          if
-            ( serie1.isCrossUp  ( serie2 , series.get( LONG_OPEN  ) , i ) ) 
+            ( crossPlugin.up( period , i ) ) 
          {
             
          } 
          else if
-            ( serie1.isCrossDown( serie2 , series.get( SHORT_OPEN ) , i ) ) 
+            ( crossPlugin.down( period , i ) ) 
          {
             
          }   
       }
-   };
+   };*/
 
 };

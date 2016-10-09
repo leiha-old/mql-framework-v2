@@ -28,7 +28,8 @@ public
    
    SerieBuffer
       ( int handle , int buffer = MAIN_LINE )
-      : serieHandle ( handle ) ,
+      : Serie       (        ) ,
+        serieHandle ( handle ) ,
         serieBuffer ( buffer )
    {};
    

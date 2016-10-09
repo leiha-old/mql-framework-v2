@@ -15,7 +15,7 @@
 
 // ---
 class Indicator 
-   //: public
+   : public ArrayMap < int , Serie * >
 {
 
 protected
@@ -73,21 +73,33 @@ protected
    
    string                              symbol;
    
-   ENUM_TIMEFRAMES                     timeFrame;
+   ENUM_TIMEFRAMES                     frame;
    
 public
    :
    
-   ArrayMap < int , Serie * >        * series;
+   int static LINE_MAIN;  
    
    Indicator
-      ( string currencySymbol = NULL , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
-      : symbol( currencySymbol ) , timeFrame( frame )
+      ( )
+      : symbol( NULL ) , 
+        frame ( PERIOD_CURRENT )
    {
       levels = new Array    < double >              ( );
-      slaves = new ArrayMap < string , Indicator * >( );
-      series = new ArrayMap < int    , Serie     * >( );
+      slaves = new ArrayMap < string , Indicator * >( );      
    };
+   
+   void setSymbol
+      ( string currencySymbol = NULL )
+   {
+      symbol = currencySymbol;
+   };
+   
+   void setFrame
+      ( ENUM_TIMEFRAMES targetFrame = PERIOD_CURRENT )
+   {
+      frame = targetFrame;
+   };   
    
    /**
     * Moving average on one serie of this indicator
@@ -100,12 +112,14 @@ public
       
       Indicator * indicator = slaves.get( name );
       if( indicator == NULL ) {
-         indicator = new Indicator( symbol , timeFrame );
+         indicator = new Indicator( );
+         indicator.setSymbol( symbol );
+         indicator.setFrame ( frame  );
          
-         SerieMA * serie = new SerieMA( series.get( serieName ) );
+         SerieMA * serie = new SerieMA( get( serieName ) );
          serie.setPeriod( period );
          
-         indicator.series.update( serieName , serie );
+         indicator.update( serieName , serie );
          
          slaves.update( name , indicator );
       }    
@@ -168,7 +182,7 @@ public
       plot
          ( int serieName = MAIN_LINE ) 
    {
-      Serie * s = series.get( serieName );
+      Serie * s = get( serieName );
       if( s != NULL ) {
         return s.plot( );
       }
@@ -182,9 +196,9 @@ public
          ( )
    {
       for 
-         ( int i = 0 , end = series.total() ; i < end ; i++ )
+         ( int i = 0 , end = total() ; i < end ; i++ )
       {
-         series.getByPrimaryIndex( i ).end( );
+         getByPrimaryIndex( i ).end( );
       }
       
       for 
@@ -203,9 +217,10 @@ public
          ( int start , int toCopy ) 
    {
       for 
-         ( int i = 0 , end = series.total() ; i < end ; i++ )
+         ( int i = 0 , end = total() ; i < end ; i++ )
       {
-         series.getByPrimaryIndex( i ).onCalculate( start , toCopy );
+         Serie * serie = getByPrimaryIndex( i );
+         serie.onCalculate( start , toCopy );
       }
       
       for 
@@ -214,5 +229,6 @@ public
          slaves.getByPrimaryIndex( i ).onCalculate( start , toCopy );
       }
    };
-
+   
 };
+int Indicator::LINE_MAIN = 0;

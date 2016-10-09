@@ -18,7 +18,13 @@ public
    
    T items [ ];
    
-   void 
+   Array
+      ( bool reverseMode = false )      
+   {
+      enableReverse( reverseMode ) ;
+   };
+   
+   virtual void 
       enableReverse( int isSerie = false )
    {
       ArraySetAsSeries( items , isSerie );
@@ -57,10 +63,18 @@ public
    T 
       getByPrimaryIndex( int index )
    {
-      if ( total( ) > index ) 
+      int t = total( );
+      
+      if ( index < 0 ) 
       {
-         return items[ index < 0 ? total() - 1 : index ] ;
-      }
+         index = t + index;
+         if ( index >= 0 ) {
+            return items[ index ] ;
+         }
+      }else if ( t > index ) {
+         return items[ index ] ;
+      }      
+      
       return NULL ;
    };
          
