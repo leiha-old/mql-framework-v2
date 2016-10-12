@@ -83,7 +83,7 @@ public
    /**
     * Indicator : Moving Average
     */
-   Indicator * 
+   MovingAverage * 
       average
          ( 
             int                period       = 13          , 

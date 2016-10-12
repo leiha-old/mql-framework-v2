@@ -29,7 +29,7 @@ protected
 public
    :
    
-   Indicator * average;
+   MovingAverage * average;
    
    /**
     */
@@ -43,10 +43,10 @@ public
       );      
       
       average = container.average( periodMA );
-      if ( periodMASmooth != NULL ) {
+      /*if ( periodMASmooth != NULL ) {
             average = average.average( periodMASmooth );
-      }      
-      update( LINE_AVERAGE , average.get( LINE_MAIN ));
+      }*/
+      update( LINE_AVERAGE , average.get( LINE_MAIN ) );
    };
    
    
@@ -64,6 +64,10 @@ public
             ( iContainer , GetPointer( this ) )
          ;
          iContainer.update( name , bb );
+         
+         MovingAverageSignal * maSignal = average.signal();
+         update( ParabolicSARSignal::LINE_TRENDUP   , maSignal.get( MovingAverageSignal::LINE_UP ) );
+         update( ParabolicSARSignal::LINE_TRENDDOWN , maSignal.get( MovingAverageSignal::LINE_DOWN ) );
       }      
       return bb;
    };

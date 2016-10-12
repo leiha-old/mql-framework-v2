@@ -65,6 +65,24 @@ public
             .width( 1            )
       ;
       
+      Psar
+         .plot( ParabolicSARSignal::LINE_TRENDUP , false )
+            .emptyValue( 0 )
+            .c0lor( clrGreen     )
+            .type ( DRAW_LINE   )
+            .style( STYLE_SOLID  )
+            .width( 1            )
+      ;
+      
+      Psar
+         .plot( ParabolicSARSignal::LINE_TRENDDOWN , false )
+            .emptyValue( 0 )
+            .c0lor( clrRed       )
+            .type ( DRAW_LINE   )
+            .style( STYLE_SOLID  )
+            .width( 1            )
+      ;
+      
       PsarSignal
          .plot( ParabolicSARSignal::LINE_PEAKUP , false )
             .emptyValue( 0 )
@@ -79,24 +97,6 @@ public
             .emptyValue( 0 )
             .c0lor( clrRed       )
             .type ( DRAW_ARROW   )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;
-      
-       PsarSignal
-         .plot( ParabolicSARSignal::LINE_TRENDUP , false )
-            .emptyValue( 0 )
-            .c0lor( clrGreen     )
-            .type ( DRAW_LINE   )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;
-      
-      PsarSignal
-         .plot( ParabolicSARSignal::LINE_TRENDDOWN , false )
-            .emptyValue( 0 )
-            .c0lor( clrRed       )
-            .type ( DRAW_LINE   )
             .style( STYLE_SOLID  )
             .width( 1            )
       ;

@@ -57,7 +57,7 @@ public
       if ( bb == NULL ) {
          bb = new MovingAverageSignalIndicator < TimeIndicators * > 
             ( iContainer , GetPointer( this ) )
-         ;
+         ;         
          iContainer.update( name , bb );
       }      
       return bb;
