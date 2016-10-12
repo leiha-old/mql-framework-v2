@@ -20,16 +20,12 @@ class SerieHistory
 protected
    :
    
-   string currencyName;
-   
-   ENUM_TIMEFRAMES timeName;
-
 public
    :
    
    SerieHistory
       ( string currency = NULL , ENUM_TIMEFRAMES time = PERIOD_CURRENT )
-      : Serie (  ) , currencyName ( currency ) , timeName ( time )
+      : Serie ( currency , time )
    {};
    
    /**
@@ -129,6 +125,29 @@ public
       onCalculate( int start , int toCopy ) 
    {
       CopyOpen( currencyName , timeName , start , toCopy , items );
+   };
+
+};
+
+class SerieTime
+   : public SerieEngine < datetime >
+{
+
+public
+   :
+   
+   SerieTime
+      ( string currency = NULL , ENUM_TIMEFRAMES time = PERIOD_CURRENT )
+      : SerieEngine ( currency , time )
+   {};
+   
+   /**
+    *
+    */
+   virtual void
+      onCalculate( int start , int toCopy ) 
+   {
+      CopyTime( currencyName , timeName , start , toCopy , items );
    };
 
 };

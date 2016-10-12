@@ -10,28 +10,25 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "../Plot/Plot.mqh"
-#include "../Array/Array.mqh"
+#include "./SerieEngine.mqh"
 
 // ---
 class Serie
-   : public Array < double >
+   : public SerieEngine < double >
 {
 
-int                     slot;
-ENUM_INDEXBUFFER_TYPE   type;
-Plot                  * seriePlot;
+protected
+   :
 
-static int              TOTAL_BUFFERS;
+Plot                  * seriePlot;
 
 public 
    :
    
    Serie
-      ( bool reverseMode = true )
-      : Array ( reverseMode     ) ,
-        slot  ( TOTAL_BUFFERS++ ) , 
-        type  ( INDICATOR_CALCULATIONS  )        
+      ( string currency = NULL , ENUM_TIMEFRAMES time = PERIOD_CURRENT )
+         :  SerieEngine ( currency , time )
+            
    {
       
    };
@@ -41,13 +38,6 @@ public
          ( ) 
    {
       SetIndexBuffer( slot , items , type );
-   };
-   
-   virtual void
-      onCalculate
-         ( int start , int toCopy ) 
-   {
-      
    };
    
    Serie * setType
@@ -61,11 +51,13 @@ public
    
    Plot * 
       plot
-         ( ) 
+         ( bool displayData = true ) 
    {
       if( seriePlot == NULL ){
          seriePlot = new Plot( slot );
-         this.setType( INDICATOR_DATA );
+         if( displayData == true ) {
+            this.setType( INDICATOR_DATA );
+         }
       }
       return seriePlot;
    };
@@ -81,9 +73,9 @@ public
    
    bool 
       isInferior
-         ( Serie * serie , int candle = 0 ) 
+         ( Array < double > * array , int candle = 0 ) 
    {
-      return ( items[ candle ] < serie.items[ candle ] );
+      return ( items[ candle ] < array.items[ candle ] );
    };
    
    // ---
@@ -97,9 +89,9 @@ public
    
    bool 
       isInferiorOrEqual  
-         ( Serie * serie , int candle = 0 ) 
+         ( Array < double > * array , int candle = 0 ) 
    {
-      return ( items[ candle ] <= serie.items[ candle ] );
+      return ( items[ candle ] <= array.items[ candle ] );
    };
    
    // ---
@@ -113,9 +105,9 @@ public
    
    bool 
       isEqual            
-         ( Serie * serie , int candle = 0 ) 
+         ( Array < double > * array , int candle = 0 ) 
    {
-      return ( items[ candle ] == serie.items[ candle ] );
+      return ( items[ candle ] == array.items[ candle ] );
    };
    
    // ---
@@ -129,9 +121,9 @@ public
    
    bool 
       isSuperiorOrEqual  
-         ( Serie * serie , int candle = 0 ) 
+         ( Array < double > * array , int candle = 0 ) 
    {
-      return ( items[ candle ] >= serie.items[ candle ] );
+      return ( items[ candle ] >= array.items[ candle ] );
    };
    
    // ---
@@ -145,12 +137,9 @@ public
    
    bool
       isSuperior
-         ( Serie * serie , int candle = 0 ) 
+         ( Array < double > * array , int candle = 0 ) 
    {
-      return ( items[ candle ] > serie.items[ candle ] );
+      return ( items[ candle ] > array.items[ candle ] );
    }; 
-   
-  
   
 };
-int Serie::TOTAL_BUFFERS = 0;

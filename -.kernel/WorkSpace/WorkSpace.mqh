@@ -14,30 +14,31 @@
 #include "../Currency/Currency.mqh"
 
 // ---
+template < typename T >
 class WorkSpace
 {
 
 public
    :
    
-   ArrayMap < string , Currency * > * currencies;
+   ArrayMap < string , Currency < T > * > * currencies;
    
    WorkSpace ( )
       //:
    {
-      currencies = new ArrayMap < string , Currency * > ( );
+      currencies = new ArrayMap < string , Currency < T > * > ( );
    };
    
    /** 
     * Get Currency by symbol
     */
-   Currency * 
+   Currency < T > * 
       currency 
          ( string symbol ) 
    {
-      Currency * c = currencies.get( symbol );
+      Currency < T > * c = currencies.get( symbol );
       if( c == NULL ) {
-         c = new Currency( symbol );
+         c = new Currency < T > ( symbol );
          currencies.update( symbol , c );
       }      
       return c;
@@ -46,7 +47,7 @@ public
    /**
     * Get TimeFrame
     */
-   Time * 
+   Time < T > * 
       time 
          ( string symbol , ENUM_TIMEFRAMES timeFrame = PERIOD_CURRENT ) 
    {
@@ -85,7 +86,7 @@ public
          return;
       }
       
-      int start  = 0;
+      //int start  = 0;
       int toCopy = ratesTotal;
       if( prevCalculated < ratesTotal || prevCalculated >= 0 ) {
          toCopy = ratesTotal - prevCalculated;
@@ -97,7 +98,7 @@ public
       for 
          ( int i = 0 , end = currencies.total() ; i < end ; i++ )
       {
-         currencies.getByPrimaryIndex( i ).onCalculate( start , toCopy );         
+         currencies.getByPrimaryIndex( i ).onCalculate( prevCalculated , toCopy );         
       }        
    };
    

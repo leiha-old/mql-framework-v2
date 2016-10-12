@@ -12,7 +12,8 @@
 
 #include "../Serie/SerieBuffer.mqh"
 #include "../Serie/SerieHistory.mqh"
-#include "../Indicator/BullsVsBears/BullsVsBears.mqh"
+#include "../Array/ArrayMap.mqh"
+#include "../Indicator/Indicator.mqh"
 
 // ---
 
@@ -23,8 +24,7 @@ class TimeIndicators
 protected
    :
    
-   string           symbol;   
-   ENUM_TIMEFRAMES  timeFrame;
+   
    
    /**
     */
@@ -47,6 +47,9 @@ protected
 
 public
    :
+   
+   string           symbol;   
+   ENUM_TIMEFRAMES  timeFrame;
    
    /**
     */
@@ -163,69 +166,5 @@ public
          ) );
       }
       return indicator;      
-   };
-   
-   /** 
-    * Indicator : Bulls Vs Bears Power
-    */
-   BullsVsBears * 
-      bullsVsBears
-         ( int period = 13 )
-   {
-      string name              = StringFormat( "BULLSVSBEARS.%i", period );
-      BullsVsBears * indicator = get( name );
-      if( indicator == NULL ) 
-      {
-         indicator = new BullsVsBearsIndicator < TimeIndicators * > 
-            ( GetPointer( this ) , period ) 
-         ;
-         indicator.setSymbol( symbol           );
-         indicator.setFrame ( timeFrame        );
-         update             ( name , indicator );         
-      }
-      return indicator;      
-   };
-   
-   /** 
-    * Indicator : Parabolic SAR
-    */
-   Indicator * 
-      sar
-         ( double step = 0.02 , double maximum = 0.2 )
-   {
-      bool   was;
-      string name = StringFormat( "SAR.%e.%e", step , maximum );
-      Indicator * indicator = single( name , was );
-      if( ! was ) 
-      {
-         indicator.update( Indicator::LINE_MAIN , new SerieBuffer( 
-            iSAR( symbol , timeFrame , step , maximum ) 
-         ) );
-      }
-      return indicator;   
-   };
-   
-   /**
-    * Indicator : Moving Average
-    */
-   Indicator * 
-      average
-         ( 
-            int                period       = 13          , 
-            ENUM_MA_METHOD     method       = MODE_SMA    , 
-            ENUM_APPLIED_PRICE appliedPrice = PRICE_CLOSE , 
-            int                shift        = 0 
-         )
-   {
-      bool   was;
-      string name = StringFormat( "MA.%e.%e.%e.%e", period , method , appliedPrice , shift );
-      Indicator * indicator = single( name , was );
-      if( ! was ) 
-      {
-         indicator.update( Indicator::LINE_MAIN , new SerieBuffer( 
-            iMA( symbol , timeFrame , period , shift , method, appliedPrice )
-         ) );
-      }
-      return indicator;        
-   };
+   };   
 };

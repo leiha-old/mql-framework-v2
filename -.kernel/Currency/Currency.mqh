@@ -14,6 +14,8 @@
 #include "../Time/Time.mqh"
 
 // ---
+
+template < typename T >
 class Currency 
    //: public
 {
@@ -21,23 +23,23 @@ class Currency
 public
    :
    
-   ArrayMap < int , Time * > * times;
+   ArrayMap < int , Time < T > * >      * times;
    
    string                      symbol;
 
    Currency ( string currencySymbol )
       : symbol ( currencySymbol )
    {
-      times = new ArrayMap < int , Time * > (  );   
+      times = new ArrayMap < int ,  Time < T > * > (  );   
    };
    
    /** 
     */
-   Time * time ( ENUM_TIMEFRAMES timeFrame ) 
+   Time < T > * time ( ENUM_TIMEFRAMES timeFrame ) 
    {
-      Time * t = times.get( timeFrame );
+      Time < T > * t = times.get( timeFrame );
       if( t == NULL ) {
-         t = new Time( symbol , timeFrame );
+         t = new Time < T > ( symbol , timeFrame );
          times.update( timeFrame , t );
       }      
       return t;

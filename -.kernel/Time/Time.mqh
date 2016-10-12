@@ -10,21 +10,23 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "./Signals.mqh"
+#include "./Indicators.mqh"
 
 // ---
+template < typename T >
 class Time
 {
 
 protected :
    
-   string           symbol;   
-   ENUM_TIMEFRAMES  timeFrame;   
+   
 
 public :
    
-   TimeSignals    * signals;
-   TimeIndicators * indicators;
+   T * indicators;
+   
+   string           symbol;   
+   ENUM_TIMEFRAMES  timeFrame;   
    
    /**
     */
@@ -32,8 +34,7 @@ public :
       ( string & currencySymbol , ENUM_TIMEFRAMES frame = PERIOD_CURRENT )
          : symbol ( currencySymbol ) , timeFrame ( frame )
    {
-      indicators = new TimeIndicators ( currencySymbol , frame );
-      signals    = new TimeSignals    ( indicators , currencySymbol , frame );
+      indicators = new T ( currencySymbol , frame );      
    };
    
    /**
@@ -46,12 +47,6 @@ public :
          ( int i = 0 , end = indicators.total() ; i < end ; i++ )
       {
          indicators.getByPrimaryIndex( i ).end( );
-      }
-      
-      for 
-         ( int i = 0 , end = signals.total() ; i < end ; i++ )
-      {
-         signals.getByPrimaryIndex( i ).end( );         
       }
    };
    
@@ -67,13 +62,6 @@ public :
       {
          Indicator * indicator = indicators.getByPrimaryIndex( i );
          indicator.onCalculate( start , toCopy );
-      }
-      
-      for 
-         ( int i = 0 , end = signals.total() ; i < end ; i++ )
-      {
-         Signal * signal = signals.getByPrimaryIndex( i );
-         signal.onCalculate( start , toCopy );
       }
    };
 };

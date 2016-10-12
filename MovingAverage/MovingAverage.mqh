@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                  SerieBuffer.mqh |
+//|                                                         Time.mqh |
 //|                                          leiha.sellier@gmail.com |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
@@ -10,40 +10,46 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "./Serie.mqh"
+#include "../-.kernel/Indicator/Indicator.mqh"
 
 // ---
-class SerieBuffer
-   : public Serie
+
+class MovingAverageSignal
+   : public Indicator
 {
-
-protected
-   :
-
-   int serieHandle;
-   int serieBuffer;
-
 public
-   :
+   :   
+   int static LINE_UP;
+   int static LINE_DOWN;
    
-   SerieBuffer
-      ( int handle , int buffer = MAIN_LINE )
-      : Serie       (        ) ,
-        serieHandle ( handle ) ,
-        serieBuffer ( buffer )
-   {};
-   
-   /**
-    *
-    */
-   virtual void
-      onCalculate( int start , int toCopy ) 
+   MovingAverageSignal
+      (  )
+      : Indicator (  )
    {
-      CopyBuffer( serieHandle , serieBuffer , start , toCopy , items );
-      for( int i = 0 , t = total( ) ; i < t ; i++ ) 
-      {
-         items[ i ] = NormalizeDouble( items[ i ] , 10 ) ;
-      }
-   };
+      
+   };  
+};
+int MovingAverageSignal::LINE_UP   = 1;
+int MovingAverageSignal::LINE_DOWN = 2;
+// ---
 
+class MovingAverage
+   : public Indicator
+{
+public
+   :   
+   
+   MovingAverage
+      (  )
+      : Indicator (  )
+   {
+      
+   };
+   
+   virtual MovingAverageSignal * 
+      signal
+         (  )
+   {
+      return NULL;
+   };
 };

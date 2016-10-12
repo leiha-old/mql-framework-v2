@@ -180,11 +180,11 @@ public
     */
    Plot * 
       plot
-         ( int serieName = MAIN_LINE ) 
+         ( int serieName = MAIN_LINE , bool displayData = true ) 
    {
       Serie * s = get( serieName );
       if( s != NULL ) {
-        return s.plot( );
+        return s.plot( displayData );
       }
       return NULL;      
    }
