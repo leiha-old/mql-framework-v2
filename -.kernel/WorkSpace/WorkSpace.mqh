@@ -86,7 +86,7 @@ public
          return;
       }
       
-      //int start  = 0;
+      int start  = 0;
       int toCopy = ratesTotal;
       if( prevCalculated < ratesTotal || prevCalculated >= 0 ) {
          toCopy = ratesTotal - prevCalculated;
@@ -98,7 +98,7 @@ public
       for 
          ( int i = 0 , end = currencies.total() ; i < end ; i++ )
       {
-         currencies.getByPrimaryIndex( i ).onCalculate( prevCalculated , toCopy );         
+         currencies.getByPrimaryIndex( i ).onCalculate( start , toCopy );         
       }        
    };
    

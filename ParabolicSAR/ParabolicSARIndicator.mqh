@@ -43,9 +43,9 @@ public
       );      
       
       average = container.average( periodMA );
-      /*if ( periodMASmooth != NULL ) {
-            average = average.average( periodMASmooth );
-      }*/
+      if ( periodMASmooth != NULL ) {
+            
+      }
       update( LINE_AVERAGE , average.get( LINE_MAIN ) );
    };
    

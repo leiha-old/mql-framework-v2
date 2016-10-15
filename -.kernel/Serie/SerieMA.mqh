@@ -17,22 +17,24 @@ class SerieMA
    : public Serie
 {
 
-int     period;
 Serie * serieSrc;
+
+Array < int > * periods;
+Array < Serie * > * dataSets;
 
 public 
    :
    
    SerieMA
       ( Serie * serie )
-      : serieSrc ( serie ) , period ( 13 )
+      : serieSrc ( serie )
    {
-      
+      periods = new Array < int > ( );
    };
    
-   SerieMA * setPeriod ( int periodMa = 13 )
+   SerieMA * addPeriod ( int periodMa = 13 )
    {
-      period = periodMa;
+      periods.update( periodMa );
       return GetPointer( this );
    };
    
@@ -42,14 +44,38 @@ public
    virtual void
       onCalculate( int start , int toCopy ) 
    {
+      if ( dataSets == NULL ){
+         dataSets = new Array < Serie * > ( );
+         dataSets.update( serieSrc );
+         for( int i = 0 , t = periods.total( ) - 1 ; i < t ; i++ ) 
+         {
+            Serie * s = new Serie ( );
+            s.resize( serieSrc.total( ) );            
+            dataSets.update( s );
+         }
+         dataSets.update( GetPointer( this ) );
+      }
+   
+      for( int i = 1 , t = dataSets.total( ) ; i < t ; i++ ) 
+      {
+        onCalculate( periods.items[ i - 1 ] , dataSets.items[ i ] , dataSets.items[ i - 1 ] , start , toCopy ) ;
+      }
+   };
+   
+   /**
+    *
+    */
+   virtual void
+      onCalculate( int period , Serie * dest , Serie * src , int start , int toCopy ) 
+   {
       double result;
-      for( int i = start , t = ( toCopy > 1 ? toCopy - period : toCopy ) ; i < t ; i++ ) 
+      for( int i = 0 , t = ( toCopy == 1 ? 1 : toCopy - period ) ; i < t ; i++ ) 
       {
          result = 0.0;
          for( int ii = period - 1 ; ii >= start ; ii-- ) {
-            result += serieSrc.get( i + ii );
+            result += src.items[ i + ii ];
          }
-         items[ i ] = ( result / period );
+         dest.items[ i ] = ( result / period );
       }
    };
    

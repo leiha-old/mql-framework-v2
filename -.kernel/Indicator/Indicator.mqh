@@ -75,6 +75,8 @@ protected
    
    ENUM_TIMEFRAMES                     frame;
    
+   string                              iName;
+   
 public
    :
    
@@ -89,11 +91,21 @@ public
       slaves = new ArrayMap < string , Indicator * >( );      
    };
    
+   void setName
+      ( string indicatorName )
+   {
+      iName = indicatorName;
+   };
+   
    void setSymbol
       ( string currencySymbol = NULL )
    {
       symbol = currencySymbol;
    };
+   
+   string name() {
+      return iName;
+   }
    
    void setFrame
       ( ENUM_TIMEFRAMES targetFrame = PERIOD_CURRENT )
@@ -107,7 +119,7 @@ public
    Indicator * 
       average
          ( int period = 13 , int serieName = MAIN_LINE )
-   {
+   { 
       string name = StringFormat( "MA.%i.%i", period , serieName );
       
       Indicator * indicator = slaves.get( name );
@@ -117,7 +129,7 @@ public
          indicator.setFrame ( frame  );
          
          SerieMA * serie = new SerieMA( get( serieName ) );
-         serie.setPeriod( period );
+         serie.addPeriod( period );
          
          indicator.update( serieName , serie );
          

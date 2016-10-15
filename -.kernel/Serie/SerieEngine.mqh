@@ -28,7 +28,7 @@ protected
 int                     slot;
 ENUM_INDEXBUFFER_TYPE   type;
 string                  currencyName;
-ENUM_TIMEFRAMES         timeName;   
+ENUM_TIMEFRAMES         timeName;
 
 public 
    :

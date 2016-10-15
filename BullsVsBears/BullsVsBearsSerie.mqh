@@ -37,7 +37,8 @@ public
    virtual void
       onCalculate( int start , int toCopy ) 
    {
-      for( int i = ( toCopy == 1 ? 1 : toCopy - 1 ) , t = 0 ; i > t ; i-- ) 
+      int r = 1;
+      for( int i = 0 , t = ( toCopy == 1 ? 1 : toCopy - 1 ) ; i < t ; i++ ) 
       {
          items[ i ] = ( serieBulls.items[ i ] + serieBears.items[ i ] ) / 2 ;
       }

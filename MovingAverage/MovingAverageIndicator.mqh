@@ -44,6 +44,22 @@ public
       ) );
    };
    
+   /**
+    */
+   MovingAverageIndicator 
+      (  T           container , 
+         int         period, 
+         Indicator * indicator , 
+         int serieName = MAIN_LINE 
+      )
+         : iContainer( container )
+   {
+      SerieMA * maSerie = new SerieMA( indicator.get( serieName ) );
+      maSerie.addPeriod ( period );
+      
+      update( LINE_MAIN  , maSerie );
+   };
+   
    
    /** 
     * Signal : Bulls Vs Bears Power
@@ -52,13 +68,14 @@ public
       signal
          ( )
    {
-      string name             = "MA_SIGNAL";
+      string name = StringFormat( "%s.SIGNAL", name( ) );
       MovingAverageSignal * bb = iContainer.get( name );
       if ( bb == NULL ) {
          bb = new MovingAverageSignalIndicator < TimeIndicators * > 
             ( iContainer , GetPointer( this ) )
          ;         
          iContainer.update( name , bb );
+         bb.setName       ( name      );
       }      
       return bb;
    };

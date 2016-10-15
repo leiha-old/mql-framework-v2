@@ -51,6 +51,7 @@ public
          indicator = new BullsVsBearsIndicator < Indicators * > 
             ( GetPointer( this ) , period ) 
          ;
+         indicator.setName  ( name             );
          indicator.setSymbol( symbol           );
          indicator.setFrame ( timeFrame        );
          update             ( name , indicator );         
@@ -72,6 +73,7 @@ public
          indicator = new ParabolicSARIndicator < Indicators * > 
             ( GetPointer( this ) , step , maximum , periodMA , periodMASmooth ) 
          ;
+         indicator.setName  ( name             );
          indicator.setSymbol( symbol           );
          indicator.setFrame ( timeFrame        );
          update             ( name , indicator );         
@@ -99,9 +101,32 @@ public
          indicator = new MovingAverageIndicator < Indicators * > 
             ( GetPointer( this ) , period , method , appliedPrice , shift ) 
          ;
+         indicator.setName  ( name             );
          indicator.setSymbol( symbol           );
          indicator.setFrame ( timeFrame        );
          update             ( name , indicator );         
+      }
+      return indicator;     
+   };
+   
+   /**
+    * Indicator : Moving Average
+    */
+   MovingAverage * 
+      average
+         ( int period , Indicator * indicator , int serieName = MAIN_LINE )
+   {
+      string name = StringFormat( "%s.%i", indicator.name( ) , period );
+      MovingAverage * ma = get( name );
+      if( indicator == NULL ) 
+      {
+         ma = new MovingAverageIndicator < Indicators * > 
+            ( GetPointer( this ) , period , indicator , serieName ) 
+         ;
+         ma.setName  ( name             );
+         ma.setSymbol( symbol           );
+         ma.setFrame ( timeFrame        );
+         update      ( name , indicator );         
       }
       return indicator;     
    };
