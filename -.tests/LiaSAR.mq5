@@ -18,7 +18,7 @@
 #include "../Indicators.mqh"
 
 template < typename T >
-class Test 
+class LiaSAR 
    : public WorkSpace < T >
 {
 
@@ -29,79 +29,10 @@ public
     */
    void onInit () 
    {  
-      
-      
-      //bvsb( );
-      psar();
-   }
-   
-   void bvsb () {   
-      Time < T >         * tf          = time                      ( NULL , PERIOD_CURRENT );      
-      BullsVsBears       * BvsB        = tf.indicators.bullsVsBears( 89 );
-      BullsVsBearsSignal * BvsBSignal  = BvsB.signal               ( 55 , 34 );
-      Indicator          * BvsBAverage = BvsB.average              ( 21 );
-     
-     
-     BvsB
-         .plot( BullsVsBears::LINE_MAIN )
-            //.emptyValue( 0 )
-            .c0lor( clrBlue      )
-            .type ( DRAW_LINE    )
-            .style( STYLE_DOT    )
-            .width( 1            )
-      ;
-     
-     /*
-      BvsBAverage
-         .plot( BullsVsBears::LINE_MAIN )
-            //.emptyValue( 0 )
-            .c0lor( clrRed      )
-            .type ( DRAW_LINE    )
-            .style( STYLE_SOLID    )
-            .width( 1            )
-      ;*/
-   
-      /*
-      BvsB.plot( BullsVsBears::LINE_BEARS )
-            .emptyValue( 0 )
-            .c0lor( clrGreen     )
-            .type ( DRAW_LINE    )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;
-      
-      BvsB.plot( BullsVsBears::LINE_BULLS )
-            .emptyValue( 0 )
-            .c0lor( clrRed       )
-            .type ( DRAW_LINE    )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;*/
-      
-           
-      BvsBSignal
-         .plot( BullsVsBearsSignal::LINE_UP , false )
-            .emptyValue( 0 )
-            .c0lor( clrGreen     )
-            .type ( DRAW_LINE    )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;
-      
-      BvsBSignal
-         .plot( BullsVsBearsSignal::LINE_DOWN , false )
-            .emptyValue( 0 )
-            .c0lor( clrRed       )
-            .type ( DRAW_LINE    )
-            .style( STYLE_SOLID  )
-            .width( 1            )
-      ;
-   };
-   
-   void psar() {
       Time < T >         * tf          = time                      ( NULL , PERIOD_CURRENT );   
       ParabolicSAR       * Psar        = tf.indicators.parabolicSAR ( 0.02 , 0.2 , 89 , 21 );
       ParabolicSARSignal * PsarSignal  = Psar.signal                (  );
+      
       // ---      
       
       /*
@@ -167,11 +98,10 @@ public
             .style( STYLE_SOLID  )
             .width( 1            )
       ;
-   };
-      
+   }
 };
 
-Test < Indicators > * test = new Test < Indicators >( );
+LiaSAR < Indicators > * test = new LiaSAR < Indicators >( );
 
 // ------------------------------------------------
 

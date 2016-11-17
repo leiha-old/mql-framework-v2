@@ -18,13 +18,15 @@ template < typename T >
 class WorkSpace
 {
 
+bool initialProcess;
+
 public
    :
    
    ArrayMap < string , Currency < T > * > * currencies;
    
    WorkSpace ( )
-      //:
+      : initialProcess ( true )
    {
       currencies = new ArrayMap < string , Currency < T > * > ( );
    };

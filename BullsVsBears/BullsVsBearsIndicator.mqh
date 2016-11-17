@@ -12,7 +12,7 @@
 
 #include "./BullsVsBears.mqh"
 #include "./BullsVsBearsSerie.mqh"
-#include "./BullsVsBearsSignalIndicator.mqh"
+#include "./BullsVsBearsSignal.mqh"
 
 // ---
 
@@ -26,6 +26,7 @@ protected
    
    int iPeriod;
    T  iContainer;
+   BullsVsBearsSerieTrend * trend;
    
 public
    :
@@ -33,33 +34,24 @@ public
    /**
     */
    BullsVsBearsIndicator 
-      ( T container , int period = 13 )
+      ( T container , int period = 13 , int ma1 = 34 , int ma2 = 55 )
          : iContainer( container ) , iPeriod( period )
    {
-      Serie * bu = iContainer.bulls( iPeriod ).get( LINE_MAIN );
-      Serie * be = iContainer.bears( iPeriod ).get( LINE_MAIN );
-      update( LINE_MAIN    , new BullsVsBearsSerie( bu , be ) );
-      update( LINE_BEARS   , bu );
-      update( LINE_BULLS   , be );      
+      Serie   * be    = iContainer.bears( iPeriod ).get( 0 );
+      Serie   * bu    = iContainer.bulls( iPeriod ).get( 0 );
+      Serie   * bebu  = new BullsVsBearsSerie( bu , be );
+      SerieMA * ma    = new SerieMA( bebu );
+      Serie   * td    = new Serie( );
+      Serie   * tu    = new BullsVsBearsSerieTrend( ma , td );
+            
+      update( be.slot( )   , be );
+      update( bu.slot( )   , bu );
+      update( bebu.slot( )    , bebu );
+      update( ma.slot( ) , ma.addPeriod( ma1 ).addPeriod( ma2 ) );
+      update( td.slot( )    , td );
+      update( tu.slot( )      , tu );
+      
+      
+      
    };
-   
-   /** 
-    * Signal : Bulls Vs Bears Power
-    */
-   BullsVsBearsSignal * 
-      signal
-         ( int ma1 = 34 , int ma2 = 55 )
-   {
-      string name             = StringFormat( "BULLSVSBEARS_SIGNAL.%i", iPeriod );
-      BullsVsBearsSignal * bb = iContainer.get( name );
-      if ( bb == NULL ) {
-         bb = new BullsVsBearsSignalIndicator < TimeIndicators * > 
-            ( iContainer , GetPointer( this ) , ma1 , ma2 )
-         ;
-         iContainer.update( name , bb );
-      }      
-      return bb;
-   };
-   
 };
-

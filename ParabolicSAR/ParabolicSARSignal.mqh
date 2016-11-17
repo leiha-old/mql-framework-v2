@@ -16,7 +16,7 @@
 // ---
 
 template < typename T >
-class ParabolicSARSignalIndicator
+class ParabolicSARSignal
    : public ParabolicSARSignal
 {
 
@@ -37,7 +37,7 @@ public
    
    /**
     */
-   ParabolicSARSignalIndicator 
+   ParabolicSARSignal
       ( T container , ParabolicSAR * sar )
          : iContainer( container ) , sarIndicator ( sar )
    {
@@ -61,6 +61,8 @@ public
       Serie * price = sarIndicator.get( ParabolicSAR::LINE_PRICE   );
       Serie * ma    = sarIndicator.get( ParabolicSAR::LINE_AVERAGE );
       
+      peakTop.resize( toCopy );
+      peakBot.resize( toCopy );
             
       int peakFound = -1;
       for( int i = toCopy - 2 , t = 0 ; i > t ; i-- ) 

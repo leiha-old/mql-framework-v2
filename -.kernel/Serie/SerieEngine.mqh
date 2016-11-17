@@ -25,7 +25,7 @@ class SerieEngine
 protected
    :
 
-int                     slot;
+int                     _slot;
 ENUM_INDEXBUFFER_TYPE   type;
 string                  currencyName;
 ENUM_TIMEFRAMES         timeName;
@@ -38,7 +38,7 @@ public
          :  Array        ( true ) , 
             currencyName ( currency ) , 
             timeName     ( time ) ,
-            slot         ( TOTAL_BUFFERS++ ) , 
+             _slot        ( TOTAL_BUFFERS++ ) ,
             type         ( INDICATOR_CALCULATIONS  )        
    {
       
@@ -50,12 +50,19 @@ public
          ? ratesTotal
          : ratesTotal - prevCalculated
          ;
-   }
+   };
    
    virtual void
       onCalculate
          ( int start , int toCopy ) 
    {
       
+   };
+   
+   virtual int
+      slot
+         ( ) 
+   {
+      return _slot; 
    };
 };

@@ -37,7 +37,7 @@ public
       end  
          ( ) 
    {
-      SetIndexBuffer( slot , items , type );
+      SetIndexBuffer( slot( ) , items , type );
    };
    
    Serie * setType
@@ -54,7 +54,7 @@ public
          ( bool displayData = true ) 
    {
       if( seriePlot == NULL ){
-         seriePlot = new Plot( slot );
+         seriePlot = new Plot( slot( ) );
          if( displayData == true ) {
             this.setType( INDICATOR_DATA );
          }

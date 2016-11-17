@@ -42,14 +42,14 @@ public
     */
    BullsVsBears * 
       bullsVsBears
-         ( int period = 13 )
+         ( int period = 13 , int ma1 = 34 , int ma2 = 55 )
    {
       string name              = StringFormat( "BULLSVSBEARS.%i", period );
       BullsVsBears * indicator = get( name );
       if( indicator == NULL ) 
       {
          indicator = new BullsVsBearsIndicator < Indicators * > 
-            ( GetPointer( this ) , period ) 
+            ( GetPointer( this ) , period , ma1 , ma2 ) 
          ;
          indicator.setName  ( name             );
          indicator.setSymbol( symbol           );

@@ -11,7 +11,7 @@
 //+------------------------------------------------------------------+
 
 #include "./ParabolicSAR.mqh"
-#include "./ParabolicSARSignalIndicator.mqh"
+#include "./ParabolicSARSignal.mqh"
 
 // ---
 
@@ -40,7 +40,7 @@ public
       update( LINE_PRICE , container.average( 1 ).get( LINE_MAIN ) );
       update( LINE_MAIN  , new SerieBuffer( 
          iSAR( container.symbol , container.timeFrame , step , maximum ) ) 
-      );      
+      );  
       
       average = container.average( periodMA );
       if ( periodMASmooth != NULL ) {
@@ -60,7 +60,7 @@ public
       string name             = "SAR_SIGNAL";
       ParabolicSARSignal * bb = iContainer.get( name );
       if ( bb == NULL ) {
-         bb = new ParabolicSARSignalIndicator < TimeIndicators * > 
+         bb = new ParabolicSARSignal < TimeIndicators * > 
             ( iContainer , GetPointer( this ) )
          ;
          iContainer.update( name , bb );

@@ -116,11 +116,9 @@ public
    /**
     */
    bool 
-      hydrate ( T & arraySrc [] , int start = 0 , int count = NULL , int startSrc = NULL ) 
+      copy( T & arraySrc [] , int start = 0 , int count = NULL ) 
    {
-      return ( ArrayCopy( 
-         items , arraySrc , start , startSrc == NULL ? start : startSrc , count ) <= 0 
-      );
+      return ( ArrayCopy( items , arraySrc , start , start , count ) <= 0 );
    };
    
     

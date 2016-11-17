@@ -10,44 +10,20 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "../-.kernel/Indicator/Indicator.mqh"
+#include "../Serie/Serie.mqh"
 
-class MovingAverageSignal
-   : public Indicator
+class IndicatorExpert
+   : public ArrayMap < int , Serie * >
 {
+
+int handle;
+
 public
-   :   
-   int static LINE_UP;
-   int static LINE_DOWN;
+   :
    
-   MovingAverageSignal
-      (  )
-      : Indicator (  )
+   IndicatorExpert ( int indicatorHandle )
+      : handle ( indicatorHandle )
    {
       
-   };  
-};
-int MovingAverageSignal::LINE_UP   = 1;
-int MovingAverageSignal::LINE_DOWN = 2;
-// ---
-
-class MovingAverage
-   : public Indicator
-{
-public
-   :   
-   
-   MovingAverage
-      (  )
-      : Indicator (  )
-   {
-      
-   };
-   
-   virtual MovingAverageSignal * 
-      signal
-         (  )
-   {
-      return NULL;
    };
 };

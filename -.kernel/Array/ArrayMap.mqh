@@ -99,17 +99,17 @@ public
    /**
     */
    bool 
-      hydrate ( T & arrayIndex [] , TT & arrayItems [] ) 
+      copy ( T & arrayIndex [] , TT & arrayItems [] ) 
    {
-      return ( index.hydrate( arrayIndex ) && items.hydrate( arrayItems ) );
+      return ( index.copy( arrayIndex ) && items.copy( arrayItems ) );
    };
    
    /**
     */
    bool 
-      hydrate ( Array < T > * arrayIndex ,  Array < TT > * arrayItems ) 
+      copy ( Array < T > * arrayIndex ,  Array < TT > * arrayItems ) 
    {
-      return hydrate( arrayIndex.items , arrayItems.items );
+      return copy( arrayIndex.items , arrayItems.items );
    };
    
 };

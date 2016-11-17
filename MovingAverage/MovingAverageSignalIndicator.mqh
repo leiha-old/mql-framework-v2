@@ -52,6 +52,9 @@ public
       onCalculate( int start , int toCopy ) 
    {
       Serie * serie = maIndicator.get( LINE_MAIN );
+      
+      trendUP  .resize( toCopy );
+      trendDOWN.resize( toCopy );
    
       for( int i = toCopy - 2 , t = 0 ; i > t ; i-- ) 
       {
