@@ -53,21 +53,21 @@ public
    /** 
     * Signal : Bulls Vs Bears Power
     */
-   ParabolicSARSignal * 
+   ParabolicSARSignal < T > * 
       signal
          ( )
    {
       string name             = "SAR_SIGNAL";
-      ParabolicSARSignal * bb = iContainer.get( name );
+      ParabolicSARSignal < T > * bb = iContainer.get( name );
       if ( bb == NULL ) {
-         bb = new ParabolicSARSignal < TimeIndicators * > 
+         bb = new ParabolicSARSignal < T > 
             ( iContainer , GetPointer( this ) )
          ;
          iContainer.update( name , bb );
          
          MovingAverageSignal * maSignal = average.signal();
-         update( ParabolicSARSignal::LINE_TRENDUP   , maSignal.get( MovingAverageSignal::LINE_UP ) );
-         update( ParabolicSARSignal::LINE_TRENDDOWN , maSignal.get( MovingAverageSignal::LINE_DOWN ) );
+         update( LINE_TRENDUP   , maSignal.get( MovingAverageSignal::LINE_UP ) );
+         update( LINE_TRENDDOWN , maSignal.get( MovingAverageSignal::LINE_DOWN ) );
       }      
       return bb;
    };

@@ -29,9 +29,9 @@ public
     */
    void onInit () 
    {  
-      Time < T >         * tf          = time                      ( NULL , PERIOD_CURRENT );   
-      ParabolicSAR       * Psar        = tf.indicators.parabolicSAR ( 0.02 , 0.2 , 89 , 21 );
-      ParabolicSARSignal * PsarSignal  = Psar.signal                (  );
+      Time                  < T >    * tf          = time                      ( NULL , PERIOD_CURRENT );   
+      ParabolicSARIndicator < T * >  * Psar        = tf.indicators.parabolicSAR ( 0.02 , 0.2 , 89 , 21 );
+      ParabolicSARSignal    < T * >  * PsarSignal  = Psar.signal                (  );
       
       // ---      
       
@@ -64,7 +64,7 @@ public
       ;
       
       Psar
-         .plot( ParabolicSARSignal::LINE_TRENDUP , false )
+         .plot( ParabolicSAR::LINE_TRENDUP , false )
             .emptyValue( 0 )
             .c0lor( clrGreen     )
             .type ( DRAW_LINE   )
@@ -73,7 +73,7 @@ public
       ;
       
       Psar
-         .plot( ParabolicSARSignal::LINE_TRENDDOWN , false )
+         .plot( ParabolicSAR::LINE_TRENDDOWN , false )
             .emptyValue( 0 )
             .c0lor( clrRed       )
             .type ( DRAW_LINE   )
@@ -82,7 +82,7 @@ public
       ;
       
       PsarSignal
-         .plot( ParabolicSARSignal::LINE_PEAKUP , false )
+         .plot( ParabolicSAR::LINE_PEAKUP , false )
             .emptyValue( 0 )
             .c0lor( clrGreen     )
             .type ( DRAW_ARROW   )
@@ -91,7 +91,7 @@ public
       ;
       
       PsarSignal
-         .plot( ParabolicSARSignal::LINE_PEAKDOWN , false )
+         .plot( ParabolicSAR::LINE_PEAKDOWN , false )
             .emptyValue( 0 )
             .c0lor( clrRed       )
             .type ( DRAW_ARROW   )

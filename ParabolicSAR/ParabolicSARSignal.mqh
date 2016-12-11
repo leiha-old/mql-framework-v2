@@ -17,7 +17,7 @@
 
 template < typename T >
 class ParabolicSARSignal
-   : public ParabolicSARSignal
+   : public ParabolicSAR
 {
 
 protected

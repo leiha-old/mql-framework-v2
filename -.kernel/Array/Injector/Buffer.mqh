@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                         Time.mqh |
+//|                                                        Array.mqh |
 //|                                          leiha.sellier@gmail.com |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
@@ -10,20 +10,38 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
-#include "../Serie/Serie.mqh"
+#include "./Injector.mqh"
 
-class IndicatorExpert
-   : public ArrayMap < int , Serie * >
+// ---
+template < typename T >
+class ArrayInjectorBuffer
+   : public ArrayInjector
 {
 
-int handle;
+int   bufferHandle;
+int   bufferLine;
 
-public
+protected
+   :
+
+public 
    :
    
-   IndicatorExpert ( int indicatorHandle )
-      : handle ( indicatorHandle )
+   ArrayInjectorBuffer
+      ( T * array , int handle , int buffer = MAIN_LINE )
+         : ArrayInjector( arrayDest ),
+           bufferHandle  ( handle ) ,
+           bufferLine    ( buffer )            
    {
       
+   };
+   
+   // ---
+   
+   virtual void
+      populate( int start , int toCopy ) 
+   {
+      CopyBuffer( bufferHandle , bufferLine , 0 , toCopy , array.items );
+          
    };
 };

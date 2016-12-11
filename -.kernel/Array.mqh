@@ -10,8 +10,12 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 
+#include "./Object.mqh"
+
 template < typename T >
-class Array {
+class Array
+   : public Object
+{
 
 public
    :
@@ -19,12 +23,13 @@ public
    T items [ ];
    
    Array
-      ( bool reverseMode = false )      
+      ( bool reverseMode = false , int total = 0 )      
    {
-      enableReverse( reverseMode ) ;
+      resize       ( total );
+      enableReverse( reverseMode ) ;      
    };
    
-   virtual void 
+   void 
       enableReverse( int isSerie = false )
    {
       ArraySetAsSeries( items , isSerie );
@@ -120,7 +125,4 @@ public
    {
       return ( ArrayCopy( items , arraySrc , start , start , count ) <= 0 );
    };
-   
-    
-      
 };

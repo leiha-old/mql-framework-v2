@@ -13,42 +13,45 @@
 #include "./Array.mqh"
 
 template < typename T , typename TT >
-class ArrayMap {
+class ArrayMap 
+   : public Array < TT  >
+{
 
 public
    :  
    
-   Array < T   > * index ;
-   Array < TT  > * items ;   
+   Array < T   > * index ;   
    
-   ArrayMap( ) 
+   ArrayMap( int isSerie = false ) 
+      : Array ( )
    {
       index = new Array < T  > ( );
-      items = new Array < TT > ( );
+      enableReverse( isSerie );
    };
    
    void enableReverse( int isSerie = false )
    {
-      items.enableReverse( isSerie );
-      index.enableReverse( isSerie );
+      Array < TT >::enableReverse( isSerie );
+      index. enableReverse( isSerie );
    };
    
    /**
     * Add / Update item
     */
-   bool update
-      ( T name , TT item )
+   ArrayMap < T , TT > *
+      update
+         ( T name , TT item )
    {
       int i = index.indexOf( name );
       if( i > -1 ) {
-         items.items[ i ] = item;
-         return true;
+         items[ i ] = item;
+         //return true;
       } 
       else {
-         items.update( item );
+         update( item );
          index.update( name );
       }
-      return false;
+      return pointer( );
    };
    
    /**
@@ -58,7 +61,7 @@ public
    {
       int i = index.indexOf( name );
       if( i > -1 ) {
-         return items.items[ i ];
+         return items[ i ];
       }
       return NULL ;
    };
@@ -69,7 +72,7 @@ public
    TT 
       getByPrimaryIndex( int primaryIndex )
    {
-      return items.getByPrimaryIndex( primaryIndex );
+      return Array < TT >::getByPrimaryIndex( primaryIndex );
    };
    
    /**
@@ -82,7 +85,7 @@ public
       for 
          ( int i = 0 , t = index.total( ) ; i < t ; i++ )
       {
-         if( items.items[ i ] == item ) {
+         if( items[ i ] == item ) {
             return index.items[ i ];
          }            
       }
@@ -94,22 +97,5 @@ public
    int total( )
    {
       return index.total();
-   };
-   
-   /**
-    */
-   bool 
-      copy ( T & arrayIndex [] , TT & arrayItems [] ) 
-   {
-      return ( index.copy( arrayIndex ) && items.copy( arrayItems ) );
-   };
-   
-   /**
-    */
-   bool 
-      copy ( Array < T > * arrayIndex ,  Array < TT > * arrayItems ) 
-   {
-      return copy( arrayIndex.items , arrayItems.items );
-   };
-   
+   };   
 };
