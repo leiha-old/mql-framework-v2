@@ -19,11 +19,12 @@
 
 class Indicator
    : public WorkSpace < 
-                                  Indicator   ,
-      Indicators                < Indicator > ,
-      IndicatorConfigurator     < Indicator > ,
-      Serie                     < Indicator > ,  
-      SerieConfigurator < Serie < Indicator > >    
+                               Indicator   ,
+      Indicators             < Indicator > ,
+      IndicatorConfigurator  < Indicator > ,
+      Serie                  < Indicator > ,  
+      SerieConfigurator      < Indicator , Serie < Indicator > > ,
+      SerieInjector          < Indicator , Serie < Indicator > >   
    >
 {
 

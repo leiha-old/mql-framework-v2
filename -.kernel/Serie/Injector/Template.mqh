@@ -13,30 +13,28 @@
 #include "../Array/Injector.mqh"
 
 // ---
-template < typename TParent , typename TSerie >
-class SerieInjector
+template < typename TParent , typename TSerie , typename TInjector >
+class SerieInjectorTemplate
    : public ArrayInjector < TSerie >
 {
 
 protected
    :
    
-TParent * parent;
+   SerieConfigurator < TParent , TSerie > * configurator;
 
 public 
    :
    
-   SerieInjector
-      ( TParent * parentObject )
-         : ArrayInjector ( ) ,
-           parent ( parentObject )
-         
+   SerieInjectorTemplate
+      ( )
+         : ArrayInjector ( )
    {
       
    };
    
-   SerieInjector * attachTo
-      ( TSerie * arrayDest )
+   TInjector * attachTo
+      ( T * arrayDest )
    {
       array = arrayDest;
       return pointer( );

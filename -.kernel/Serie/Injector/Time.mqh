@@ -29,8 +29,8 @@ public
    :
    
    SerieInjectorTime
-      ( )
-         : SerieInjector( )
+      ( TParent * parentObject )
+         : SerieInjector(  )
    {
       
    };

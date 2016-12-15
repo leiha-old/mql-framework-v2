@@ -13,7 +13,7 @@
 #include "../Object.mqh"
 
 // ---
-template < typename T >
+template < typename TContainer >
 class ArrayInjector
    : public Object
 {
@@ -21,22 +21,21 @@ class ArrayInjector
 protected
    :
 
-T    * array;
-int    prevCalculated;
+TContainer    * array;
+int             prevCalculated;
 
 public 
    :
    
    ArrayInjector
-      (  T * arrayDest = NULL )
-         : prevCalculated ( 0 ) ,
-           array          ( arrayDest )
+      ( )
+         : prevCalculated ( 0 )        
    {
       
    };
    
-   T * attachTo
-      ( T * arrayDest )
+   TContainer * attachTo
+      ( TContainer * arrayDest )
    {
       array = arrayDest;
       return array;
@@ -50,7 +49,7 @@ public
    {
       for( int i = start , t = toCopy ; i < t ; i++ ) 
       {
-         array.items[ i ] = NormalizeDouble( array.items[ i ] , 10 ) ;
+         array.data.items[ i ] = NormalizeDouble( array.data.items[ i ] , 10 ) ;
       }  
    };
    

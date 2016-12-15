@@ -32,7 +32,7 @@ public
       
       Candle * candle = indicators( NULL , PERIOD_CURRENT )
          .candle( )
-            .configurator.digits( 2 ).end( ).serie( Candle::SERIE_CLOSE ).emptyValue( 0 ).end( ).end( )
+            .configurator.digits( 2 ).end( ).serie( Candle::SERIE_CLOSE ).emptyValue( 0 ).end( )
       ;
      
    }

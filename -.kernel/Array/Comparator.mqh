@@ -24,14 +24,14 @@ public
       isInferior
          ( T value , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] < value );
+      return ( arraySrc.data.items[ candle ] < value );
    };
    
    bool 
       isInferior
          ( TT * array , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] < array.items[ candle ] );
+      return ( arraySrc.data.items[ candle ] < array.data.items[ candle ] );
    };
    
    // ---
@@ -40,14 +40,14 @@ public
       isInferiorOrEqual  
          ( T value , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] <= value );
+      return ( arraySrc.data.items[ candle ] <= value );
    };
    
    bool 
       isInferiorOrEqual  
          ( TT * array , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] <= array.items[ candle ] );
+      return ( arraySrc.data.items[ candle ] <= array.data.items[ candle ] );
    };
    
    // ---
@@ -56,14 +56,14 @@ public
       isEqual            
          ( T value , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] == value );
+      return ( arraySrc.data.items[ candle ] == value );
    };
    
    bool 
       isEqual            
          ( TT * array , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] == array.items[ candle ] );
+      return ( arraySrc.data.items[ candle ] == array.data.items[ candle ] );
    };
    
    // ---
@@ -72,14 +72,14 @@ public
       isSuperiorOrEqual  
          ( T value , int candle = 0 )
    {
-      return ( arraySrc.items[ candle ] >= value );
+      return ( arraySrc.data.items[ candle ] >= value );
    };
    
    bool 
       isSuperiorOrEqual  
          ( TT * array , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] >= array.items[ candle ] );
+      return ( arraySrc.data.items[ candle ] >= array.data.items[ candle ] );
    };
    
    // ---
@@ -88,13 +88,13 @@ public
       isSuperior
          ( T value , int candle = 0 )
    {
-      return ( arraySrc.items[ candle ] > value );
+      return ( arraySrc.data.items[ candle ] > value );
    };
    
    bool
       isSuperior
          ( TT * array , int candle = 0 ) 
    {
-      return ( arraySrc.items[ candle ] > array.items[ candle ] );
+      return ( arraySrc.data.items[ candle ] > array.data.items[ candle ] );
    };
 };

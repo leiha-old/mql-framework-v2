@@ -15,16 +15,22 @@
 
 template < typename TParent >
 class Serie
-   : public SerieTemplate < TParent , Serie , SerieConfigurator < Serie > >
+   : public Object
 {
 
 public 
    :
-       
+   
+   Array             < double >          * data ;
+   SerieTemplate     < TParent , Serie > * engine;
+   SerieConfigurator < TParent , Serie > * config  ;
+          
    Serie
       ( TParent * serieParent = NULL )
-      : SerieTemplate ( serieParent )
+      : Object ( )
    {
-      
+      engine = new SerieTemplate     < TParent , Serie > ( serieParent );
+      config = new SerieConfigurator < TParent , Serie > ( serieParent , pointer ( ) );
+      data   = new Array < double >  ( true , 0 );
    };
 };

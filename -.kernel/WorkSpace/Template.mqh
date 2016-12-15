@@ -20,7 +20,8 @@ template <
    typename TIndicator    ,
    typename TConfigurator ,
    typename TSerie        ,
-   typename TSerieConfigurator        
+   typename TSerieConfigurator ,
+   typename TInjector       
 >
 class WorkSpaceTemplate
    : public Object
@@ -51,14 +52,12 @@ public
    };
    
    TIndicator * serie
-      ( int serieNumber , SerieInjector < TSerie > * injector )
+      ( int serieName , TInjector * injector )
    {
-      series.update( 
-         serieNumber , 
-         TSerie::instanceOf( )
-            .injector( injector ) 
-      );
-         
+      TSerie * s = new TSerie( );
+               s.engine.injector( injector );
+               
+      series.update( serieName , s );         
       return pointer( );   
    };
    
@@ -67,7 +66,7 @@ public
    {
       TSerie * s = series.get( serieNumber );   
       if( NULL != s ) {
-         return s.configurator( );
+         return s.config;
       }      
       return NULL;
    };
@@ -122,7 +121,7 @@ public
                   wkCurrencies.items  [ i  ]
                      .timeframes.items[ i2 ]
                      .indicators.items[ i3 ]
-                     .series    .items[ i4 ].injector ( )                     
+                     .series    .items[ i4 ].engine.injector ( )                     
                      .onCalculate
                         ( start , toCopy )
                   ;

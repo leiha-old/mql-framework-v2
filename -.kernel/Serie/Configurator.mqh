@@ -14,17 +14,17 @@
 
 // ---
 
-template < typename TSerie >
+template < typename TParent , typename TSerie >
 class SerieConfigurator
-   : public SerieConfiguratorTemplate < TSerie , SerieConfigurator < TSerie > >
+   : public SerieConfiguratorTemplate < TParent , TSerie , SerieConfigurator < TParent , TSerie > >
 {
 
 public
    :
    
    SerieConfigurator
-      ( TSerie * parentSerie )
-      : SerieConfiguratorTemplate ( parentSerie )        
+      ( TParent * parentObject , TSerie * data )
+      : SerieConfiguratorTemplate ( parentObject , data )        
    {
       
    };

@@ -13,9 +13,9 @@
 #include "../Injector.mqh"
 
 // ---
-template < typename T >
+template < typename TParent , typename TSerie >
 class SerieInjectorOpen
-   : public SerieInjector < T >
+   : public SerieInjector < TParent , TSerie >
 {
 
 protected
@@ -25,8 +25,8 @@ public
    :
    
    SerieInjectorOpen
-      ( )
-         : SerieInjector( )
+      ( TParent * parentObject )
+         : SerieInjector( parentObject )
    {
       
    };
@@ -36,6 +36,6 @@ public
    virtual void
       populate( int start , int toCopy ) 
    {
-      CopyOpen( configurator.currency( ), configurator.time( ) , start , toCopy , array.items );
+      CopyOpen( array.config.currency( ), array.config.time( ) , start , toCopy , array.data.items );
    };
 };

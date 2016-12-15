@@ -16,7 +16,7 @@
 #include "./WorkSpace/Indicators.mqh"
 #include "./WorkSpace/Template.mqh"
 
-template < typename TIndicator , typename TIndicators , typename TConfigurator , typename TSerie , typename TSerieConfigurator >
+template < typename TIndicator , typename TIndicators , typename TConfigurator , typename TSerie , typename TSerieConfigurator , typename TSerieInjector >
 class WorkSpace
    : public WorkSpaceTemplate < 
       WorkSpaceCurrency   < WorkSpaceTimeFrame  < WorkSpaceIndicators < TIndicator > > > ,
@@ -25,7 +25,8 @@ class WorkSpace
       TIndicator ,
       TConfigurator ,
       TSerie ,
-      TSerieConfigurator   
+      TSerieConfigurator ,
+      TSerieInjector  
    >
 {
 

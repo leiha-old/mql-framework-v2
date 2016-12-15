@@ -18,24 +18,15 @@
 #include "./WorkSpace.mqh"
 #include "./Indicator/Configurator.mqh"
 
-interface ICandle
-{
-
-public
-   :
-      
-   
-         
-};
-
 // ---
 class Candle
    : public WorkSpace < 
-                                  Candle   ,
-      WorkSpaceIndicators       < Candle > , 
-      IndicatorConfigurator     < Candle > ,
-      Serie                     < Candle > ,          
-      SerieConfigurator < Serie < Candle > >
+                                Candle   ,
+      WorkSpaceIndicators     < Candle > , 
+      IndicatorConfigurator   < Candle > ,
+      Serie                   < Candle > ,          
+      SerieConfigurator       < Candle , Serie < Candle > > ,
+      SerieInjector           < Candle , Serie < Candle > >         
    >
 {
 
@@ -51,10 +42,10 @@ public
       (  )
          : WorkSpace ( )
    {
-      serie( SERIE_LOW   , new SerieInjectorLow   < Serie < Candle > > ( ) );
-      serie( SERIE_HIGH  , new SerieInjectorHigh  < Serie < Candle > > ( ) );
-      serie( SERIE_CLOSE , new SerieInjectorClose < Serie < Candle > > ( ) );
-      serie( SERIE_OPEN  , new SerieInjectorOpen  < Serie < Candle > > ( ) );
+      serie( SERIE_LOW   , new SerieInjectorLow   < Candle , Serie < Candle > > ( pointer ( ) ) );
+      serie( SERIE_HIGH  , new SerieInjectorHigh  < Candle , Serie < Candle > > ( pointer ( ) ) );
+      serie( SERIE_CLOSE , new SerieInjectorClose < Candle , Serie < Candle > > ( pointer ( ) ) );
+      serie( SERIE_OPEN  , new SerieInjectorOpen  < Candle , Serie < Candle > > ( pointer ( ) ) );
    };
    
    // ---

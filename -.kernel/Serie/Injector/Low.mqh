@@ -13,17 +13,17 @@
 #include "../Injector.mqh"
 
 // ---
-template < typename T >
+template < typename TParent , typename TSerie >
 class SerieInjectorLow
-   : public SerieInjector < T >
+   : public SerieInjector < TParent , TSerie >
 {
 
 public 
    :
    
    SerieInjectorLow
-      ( )
-         : SerieInjector(  )           
+      ( TParent * parentObject )
+         : SerieInjector( parentObject )
    {
       
    };
@@ -33,6 +33,6 @@ public
    virtual void
       populate( int start , int toCopy ) 
    {
-      CopyLow( configurator.currency( ) , configurator.time( ) , start , toCopy , array.items );
+      CopyLow( array.config.currency( ), array.config.time( ) , start , toCopy , array.data.items );
    };
 };

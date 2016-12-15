@@ -15,23 +15,26 @@
 int TOTAL_SLOTS = 0;
 
 // ---
-template < typename TParent , typename TSerieConfigurator >
+template < typename TParent , typename TSerie , typename TSerieConfigurator >
 class SerieConfiguratorTemplate
-   : public Object
+   : protected Object
 {
 
 int                   serieSlot;
 ENUM_INDEXBUFFER_TYPE serieType;
 string                serieCurrency;
 ENUM_TIMEFRAMES       serieTime;
+
+TSerie  * serieData;
 TParent * parent;
 
 public
    :
    
    SerieConfiguratorTemplate
-      ( TParent * parentSerie )
-      : parent        ( parentSerie ),
+      ( TParent * parentObject , TSerie * data )
+      : parent        ( parentObject ),
+        serieData     ( data ),
         serieSlot     ( TOTAL_SLOTS++ ),
         serieType     ( INDICATOR_CALCULATIONS ),
         serieCurrency ( NULL ),
@@ -158,7 +161,7 @@ public
       attachToTerminal
          ( ) 
    {
-      SetIndexBuffer( serieSlot , parent.items , serieType );
+      SetIndexBuffer( serieSlot , serieData.data.items , serieType );
    };
    
 protected

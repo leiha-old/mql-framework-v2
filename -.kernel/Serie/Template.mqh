@@ -15,12 +15,11 @@
 #include "../Array/Comparator.mqh"
 #include "../Array/Average.mqh"
 
-template < typename TParent , typename TSerie , typename TSerieConfigurator >
+template < typename TParent , typename TSerie >
 class SerieTemplate
-   : public Array < double >
+   : public Object
 {
 
-TSerieConfigurator                    * serieConfigurator;
 ArrayInjector     < TSerie >          * serieInjector;
 ArrayAverage      < TSerie >          * serieAverage;
 ArrayComparator   < double , TSerie > * serieComparator;
@@ -31,8 +30,7 @@ public
        
    SerieTemplate
       ( TParent * serieParent )
-      : Array  ( true , 0 ),
-        parent ( serieParent )
+      : parent ( serieParent )
    {
       
    };
@@ -52,7 +50,8 @@ public
          ( ) 
    {
       if ( NULL == serieInjector ) {
-         serieInjector = new ArrayInjector < TSerie > ( pointer( ) );
+         serieInjector = new ArrayInjector < TSerie > ( );
+         serieInjector.attachTo( pointer( ) );
       }
       return serieInjector;
    };
@@ -86,15 +85,5 @@ public
          serieAverage = new ArrayAverage < TSerie > ( pointer( ) );
       }
       return serieAverage;
-   };
-   
-   TSerieConfigurator * 
-      configurator
-         ( ) 
-   {
-      if ( NULL == serieConfigurator ) {
-         serieConfigurator = new TSerieConfigurator ( pointer( ) );
-      }
-      return serieConfigurator;
    };
 };

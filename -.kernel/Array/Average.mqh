@@ -74,9 +74,9 @@ protected
       {
          result = 0.0;
          for( int ii = period - 1 ; ii >= start ; ii-- ) {
-            result += arraySource.items[ i + ii ];
+            result += arraySource.data.items[ i + ii ];
          }
-         arrayDest.items[ i ] = ( result / period );
+         arrayDest.data.items[ i ] = ( result / period );
          return true;
       }
       return false;
